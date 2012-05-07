@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Jarat {
-    private long jaratId;
+    private int jaratId;
     private Varos honnan;
     private Varos hova;
     private Repulo repulo;
@@ -10,7 +10,7 @@ public class Jarat {
         super();
     }
 
-    public Jarat(long jaratId, Varos honnan, Varos hova, Repulo repulo) {
+    public Jarat(int jaratId, Varos honnan, Varos hova, Repulo repulo) {
         super();
         this.jaratId = jaratId;
         this.honnan = honnan;
@@ -18,11 +18,11 @@ public class Jarat {
         this.repulo = repulo;
     }
 
-    public long getJaratId() {
+    public int getJaratId() {
         return jaratId;
     }
 
-    public void setJaratId(long jaratId) {
+    public void setJaratId(int jaratId) {
         this.jaratId = jaratId;
     }
 

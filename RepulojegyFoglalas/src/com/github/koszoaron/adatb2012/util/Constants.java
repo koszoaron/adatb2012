@@ -37,7 +37,7 @@ public class Constants {
     /* TARSASAG_ID */
 
     public static final String JARAT = "jarat"; 
-    public static final String JARAD_ID = "jarat_id";
+    public static final String JARAT_ID = "jarat_id";
     public static final String HONNAN = "honnan";
     public static final String HOVA = "hova";
     /* REPULO_ID */
@@ -74,9 +74,24 @@ public class Constants {
     /* JARAT_ID*/
     /* OSZTALY_ID */
     /* BIZT_ID */
-
+    
     public static final String FOGLALAS = "foglalas"; 
     /* USERNAME */
     /* JEGY_ID */
     
+    public static final String[] COLS_FELHASZNALO = {USERNAME, PASS, OKMANYSZAM, NEVE, SZULETETT, BANKKARTYASZAM, LAKCIM, TELEFONSZAM};
+    public static final String[] COLS_NEMZET = {NEMZET_ID, ORSZAGNEV};
+    public static final String[] COLS_TARSASAG = {TARSASAG_ID, TARSASAG_NEV, NEMZET_ID};
+    public static final String[] COLS_VAROS = {VAROS_ID, VAROSNEV, NEMZET_ID};
+    public static final String[] COLS_REPULO = {REPULO_ID, TIPUS, ULOHELY, TARSASAG_ID};
+    public static final String[] COLS_JARAT = {JARAT_ID, HONNAN, HOVA, REPULO_ID};
+    public static final String[] COLS_MENETREND = {JARAT_ID, INDUL, ERKEZIK};
+    public static final String[] COLS_OSZTALY = {SZAMA, ETKEZES, RELAX, EXTRA_BOROND, INTERNET};
+    public static final String[] COLS_SZALLODA = {VAROS_ID, NEVE, LEIRAS};
+    public static final String[] COLS_BIZTOSITAS = {BIZT_ID, UTLEMONDAS, POGGYASZ, ARVISSZAAD};
+    public static final String[] COLS_AKCIO = {JARAT_ID, UJAR};
+    public static final String[] COLS_JEGY = {JEGY_ID, JARAT_ID, SZAMA, BIZT_ID};
+    public static final String[] COLS_FOGLALAS = {USERNAME, JEGY_ID};
+    
+    public static final String[] HEADERS_FELHASZNALO = {"Username", "Password", "Okmányszám", "Név", "Született", "Bankkártyaszám", "Lakcím", "Telefonszám"};
 }

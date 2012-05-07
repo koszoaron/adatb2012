@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Biztositas {
-    private long biztId;
+    private int biztId;
     private int utlemondas;
     private int poggyasz;
     private int arvisszaad;
@@ -10,7 +10,7 @@ public class Biztositas {
         super();
     }
 
-    public Biztositas(long biztId, int utlemondas, int poggyasz, int arvisszaad) {
+    public Biztositas(int biztId, int utlemondas, int poggyasz, int arvisszaad) {
         super();
         this.biztId = biztId;
         this.utlemondas = utlemondas;
@@ -18,11 +18,11 @@ public class Biztositas {
         this.arvisszaad = arvisszaad;
     }
 
-    public long getBiztId() {
+    public int getBiztId() {
         return biztId;
     }
 
-    public void setBiztId(long biztId) {
+    public void setBiztId(int biztId) {
         this.biztId = biztId;
     }
 

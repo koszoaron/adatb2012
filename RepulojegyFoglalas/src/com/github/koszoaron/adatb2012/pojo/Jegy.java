@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Jegy {
-    private long jegyId;
+    private int jegyId;
     private Jarat jarat;
     private Osztaly osztaly;
     private Biztositas biztositas;
@@ -10,7 +10,7 @@ public class Jegy {
         super();
     }
 
-    public Jegy(long jegyId, Jarat jarat, Osztaly osztaly, Biztositas biztositas) {
+    public Jegy(int jegyId, Jarat jarat, Osztaly osztaly, Biztositas biztositas) {
         super();
         this.jegyId = jegyId;
         this.jarat = jarat;
@@ -18,11 +18,11 @@ public class Jegy {
         this.biztositas = biztositas;
     }
 
-    public long getJegyId() {
+    public int getJegyId() {
         return jegyId;
     }
 
-    public void setJegyId(long jegyId) {
+    public void setJegyId(int jegyId) {
         this.jegyId = jegyId;
     }
 

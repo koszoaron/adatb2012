@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Tarsasag {
-    private long tarsasagId;
+    private int tarsasagId;
     private String tarsasagNev;
     private Nemzet nemzet;
     
@@ -9,18 +9,18 @@ public class Tarsasag {
         super();
     }
 
-    public Tarsasag(long tarsasagId, String tarsasagNev, Nemzet nemzet) {
+    public Tarsasag(int tarsasagId, String tarsasagNev, Nemzet nemzet) {
         super();
         this.tarsasagId = tarsasagId;
         this.tarsasagNev = tarsasagNev;
         this.nemzet = nemzet;
     }
 
-    public long getTarsasagId() {
+    public int getTarsasagId() {
         return tarsasagId;
     }
 
-    public void setTarsasagId(long tarsasagId) {
+    public void setTarsasagId(int tarsasagId) {
         this.tarsasagId = tarsasagId;
     }
 

@@ -1,0 +1,265 @@
+/*BIZTOSITAS-ok*/
+insert into biztositas values(0,1,1,1);
+insert into biztositas values(1,0,1,1);
+insert into biztositas values(2,0,0,1);
+insert into biztositas values(3,0,0,0);
+
+/*FELHASZNALO-k*/
+insert into felhasznalo values('ARON','developer1','012345678910111213141516','Koszo Aron',to_date('1988/03/15','yyyy/mm/dd'),NULL,NULL,NULL);
+insert into felhasznalo values('BATA','developer2','014558484548811213141516','Bata Andras',to_date('1990/05/15','yyyy/mm/dd'),NULL,NULL,NULL);
+insert into felhasznalo values('GYURI','developer3','01518848910111213141516','Kalmar Gyorgy',to_date('1990/08/15','yyyy/mm/dd'),NULL,NULL,NULL);
+
+/*NEMZET-ek*/
+insert into nemzet values(0,'Anglia');
+insert into nemzet values(1,'Magyarorszag');
+insert into nemzet values(2,'Nemetorszag');
+insert into nemzet values(3,'Spanyolorszag');
+insert into nemzet values(4,'Olaszorszag');
+insert into nemzet values(5,'Egyesult Allamok');
+insert into nemzet values(6,'Oroszorszag');
+insert into nemzet values(7,'Kina');
+insert into nemzet values(8,'Brazilia');
+insert into nemzet values(9,'Kanada');
+insert into nemzet values(10,'Franciaorszag');
+insert into nemzet values(11,'Gorogorszag');
+insert into nemzet values(12,'Egyiptom');
+insert into nemzet values(13,'Ausztralia');
+
+
+/*VAROS-ok*/
+insert into varos values(0,'London',0);
+insert into varos values(1,'Manchester',0);
+insert into varos values(2,'Budapest',1);
+insert into varos values(3,'Frankfurt',2);
+insert into varos values(4,'Berlin',2);
+insert into varos values(5,'Madrid',3);
+insert into varos values(6,'Roma',4);
+insert into varos values(7,'New York',5);
+insert into varos values(8,'Moszkva',6);
+insert into varos values(9,'Peking',7);
+insert into varos values(10,'Brazilvaros',8);
+insert into varos values(11,'Ottawa',9);
+insert into varos values(12,'Parizs',10);
+insert into varos values(13,'Athen',11);
+insert into varos values(14,'Kairo',12);
+insert into varos values(15,'Sidney',13);
+
+/*OSZTALY-ok*/
+insert into osztaly values(1,1,1,1,1);
+insert into osztaly values(2,1,0,1,0);
+insert into osztaly values(3,0,0,0,0);
+
+insert into szalloda values(0,'The Montcalm','A The Montcalm szállása 5 perc sétára van a Hyde Parktól, az Oxford Street üzleteitõl és a Marble Arch metróállomástól. Az 5 csillagos hotelben modern bár és helyszíni wellness-részleg mûködik. Az egész hotelben ingyenes internet-hozzáférés áll rendelkezésre. Buckingham-palota és kertjei 1,6 km-re találhatók.
+A Vetro étterem olasz ételeket szolgál fel. A Barre Noire gazdag bármenüt és különbözõ koktélokat kínál. A szálloda tipikus angol délutáni teával is kedveskedik a vendégeknek.
+Minden légkondicionált szobában iPod dokkoló, HD TV (mûholdas csatornákkal), hajszárító és minibár található. A márvány fürdõszobákban zuhanyzó és luxus pipereszett várja a vendégeket. A szobák 6 illatban választhatók.
+A Montcalm wellness-részlegében pihentetõ wellness-medence, szauna és gõzfürdõ csábítja a vendégeket. A látogatók lazíthatnak a fûtött nyugágyakon, és használhatják a modern, légkondicionált edzõtermet is.
+');
+insert into szalloda values(0,'Presidential Kensington','Az elõkelõ londoni városrészben, egy park közvetlen szomszédságában, Kensington negyedben fekszik a Presidental Kensington korabeli épülete. Vendégeit tágas, légkondicionált és ingyenes Wi-Fi-hozzáféréssel felszerelt apartmanokkal várja.
+A szálloda tágas, kellemes apartmanjai síkképernyõs, mûholdas TV-vel és DVD-lejátszóval felszereltek. Minden apartmanhoz luxus fürdõszoba, valamint konyha és étkezõ tartozik, hûtõszekrénnyel, sütõvel, mosogatógéppel, és mikrohullámú sütõvel.
+A biztonság érdekében kaputelefon mûködik és széf is elérhetõ. Minden emeletre eljuthat lifttel.
+Az Earls Court metrómegálló 200 méterre fekszik, az Earls Court Kiállítási Központ pedig 500 méterre található.
+Az apartmanokat minden nap takarítják.
+');
+insert into szalloda values(0,'Park International Hotel','A Royal Borough of Kensington and Chelsea területének elõkelõ részén fekvõ Park International Hotel elegáns és viktoriánus korabeli épületében kényelmes szállások várják a vendégeket. A Gloucester Road metróállomás gyalogosan is elérhetõ.
+Minden légkondicionált szoba mûholdas TV-vel, kényelmes ággyal és saját fürdõszobával rendelkezik. A szálláshely területén kontinentális és svédasztalos angol reggeli várja a vendégeket.
+A bárban egy nagyképernyõs televízió található. A személyzet barátságos és vendégszeretõ. Wi-Fi az egész épületben rendelkezésre áll.
+A Park International Hotel épületétõl 20 percen belül számos londoni látványosság elérhetõ gyalog, beleértve a Victoria és Albert Múzeumot, a Hyde Parkot és a város néhány legexkluzívabb bevásárló területét. A Harrods mintegy 20 percnyi sétára található.
+');
+insert into szalloda values(1,'Macdonald Manchester Hotel','A Macdonald Manchester Hotel mindössze 150 méterre fekszik a Manchester Piccadilly állomástól. A szálloda díjnyertes éttermében friss, szezonális ételek fogyaszthatók. iPod dokkoló, laptop széf és ingyenes internet-hozzáférés található minden hangszigetelt szobában.
+Az AA rosette díjjal jutalmazott Signatures étterem brit étlapján helyi bioételeket kínál. Fairtrade kávé, tea és házi sütemények kerülnek felszolgálásra a kávézó-bárban, mely egy plazma TV-vel is felszerelt.
+A Macdonald Manchester wellness-központjában 6 kezelõhelyiségben nyújtanak különbözõ kezeléseket. Ezen felül körömszalon és egy pihenõszoba is helyet kapott. A termál-részleg területén gõzfürdõ, szauna és jeges zuhany áll a vendégek rendelkezésére.
+A modern, légkondicionált szobákban síkképernyõs mûholdas TV, mini-hûtõ, valamint tea- és kávéfõzési lehetõség is biztosított. A hotel 24 órás szobaszervizt is kínál.
+A Canal Street, valamint a város nyüzsgõ zenei és színházi kerületei csupán 10 perc sétára találhatóak a szállodától. Manchaster repülõtere mindössze 20 perces autóútra fekszik.
+');
+insert into szalloda values(1,'Mercure Manchester Piccadilly','A Mercure Manchester Piccadilly Hotel kevesebb, mint 150 méterre található a Piccadilly Gardens bárjaitól és éttermeitõl. Mindössze 5 perces sétára van a Manchester Piccadilly vasútállomás. 24 órás portaszolgálat áll a vendégek rendelkezésére.
+Az Arndale bevásárlóközpont 5 perc sétára van a Mercure Manchester Piccadilly Hotel szállásától. A Manchester City Football Club kevesebb, mint 3 km-re van a szállodától. Az Old Trafford, a Manchester United focipályája egy 10 perces autóúttal elérhetõ.
+A bár kilátást nyújt a belvárosra, míg a Brasserie-étterem teljes angol reggelit és modern bisztró ételeket kínál. A szállodában 24 órás szobaszerviz, valamint a nyilvános helyiségekben ingyenes Wi-Fi biztosított.
+A modern szobákban TV, tea- és kávéfõzési lehetõség és saját fürdõszoba áll rendelkezésre, káddal és zuhanyzóval. Néhány szobából a Piccadilly Gardens kertjére nyílik kilátás.
+');
+insert into szalloda values(2,'Continental Hotel Zara','A 2010-ben nyílt 4 csillagos superior Hotel Zara az egykori Hungária fürdõ helyén található egy szecessziós mûemléképületben. A szálloda 150m2 területû tetõkerttel, valamint szabadtéri és fedett medencékkel várja vendégeit.
+Minden szoba ingyenes Wi-Fi internettel, hangszigetelt ablakokkal és légkondicionálóval, valamint LCD mûholdas TV-vel felszerelt, amely Budapest fõbb látványosságairól is nyújt felvilágosítást. A fürdõszobákban hajszárító és zuhanyzó vagy fürdõkád áll rendelkezésre. Minden szobában minibár és laptop méretû széf található.
+Az ingyenes wellness-létesítmények közé tartozik a szauna, az infravörös kabin és a pezsgõfürdõ. A fitneszterem csúcstechnológiás kardió- és izotóniás gépekkel felszerelt, valamint masszázsszolgáltatások is igényelhetõk.
+A szálloda nagy halljára nézõ Galéria Café hagyományos kávékülönlegességeket kínál, többek között kapucínert tejszínhabbal és csokoládé pasztillával. A belsõ udvarra nézõ társalgóban élõ zongorazene szól.
+Az ARAZ étterem hagyományos osztrák-magyar ételeket kínál, valamint koktélbárral felszerelt. Étkezni a belsõ udvari teraszon is lehet. Minden nap gazdag svédasztalos reggelit szolgálnak fel, vasárnaponként pedig villásreggeli fogyasztható.
+Az M2-es metró Blaha Lujza téri megállója mindössze 250 méterre, a Zsinagóga pedig 450 méterre található.
+');
+insert into szalloda values(2,'Hotel President','A 4 csillagos Hotel President szálláshelye közvetlenül a Magyar Nemzeti Bank és a Kereskedelmi Kamara szomszédságában helyezkedik el. A privát helikopter-leszállóhellyel és wellness-központtal rendelkezõ épület tetõtéri teraszáról panorámás kilátás nyílik a környékre.
+Minden szobában ingyenes internet és Wi-Fi-kapcsolat biztosított. A légkondicionált szállások mûholdas TV-vel és minibárral várják vendégeiket. A fürdõszobákban hajszárító és piperecikkek is rendelkezésre állnak.
+Az elegáns Intermezzo Café & Restaurant hazai és nemzetközi ételeket kínál. A szobaszerviz a nap 24 órájában igénybe vehetõ. A President Hotel elõcsarnokában egy csokoládébolt is található.
+A wellness-központ különlegessége a 15 méter hosszú hidromasszázs-medence. A vendégek a szaunát, a pezsgõfürdõt és a fitnesztermet is használhatják. A wellness-részleg minden nap 22:00-ig tart nyitva, és külön díj ellenében vehetõ igénybe.
+A szálláshely mindössze 200 méterre fekszik az M3-as metróvonal Arany János utcai megállójától. A Szent István-bazilika gyalog mindössze 5 perc alatt elérhetõ.
+');
+insert into szalloda values(2,'City Hotel Matyas','A történelmi Hotel Mátyás Budapest szívében található, mindössze 50 méterre a híres Váci utca exkluzív üzleteitõl és éttermeitõl. A nyilvános helyiségekben ingyenes Wi-Fi áll rendelkezésre.
+A ??mûemléképületben kialakított szálloda kényelmes, TV-vel és íróasztallal felszerelt szobákat kínál, néhány szobából pedig panorámás kilátás nyílik a Dunára és a Budai Várra. Néhány szoba ingyenes Wi-Fi-vel is felszerelt.
+A City Hotel Mátyás a Mátyás Pince étterem felett található, mely történelmi hangulatot árasztó belsõ kialakításáról és nagyszerû konyhájáról híres. A svédasztalos reggelit is itt szolgálják fel, félpanzió pedig kérhetõ.
+A szálloda 24 órás recepciót üzemeltet, és a vendégek ingyenesen használhatják a hallban található számítógépet
+');
+insert into szalloda values(3,'Steigenberger Frankfurter Hof','A patinás Steigenberger Frankfurter Hof szállása Michelin-csillagos étteremmel, egy panorámás kilátást nyújtó modern fürdõközponttal és ülõsarokkal felszerelt, tágas szobákkal várja a vendégeket. Frankfurt óvárosa és a frankfurti Opera 400 méterre található.
+Az 5 csillagos hotel elegáns szobái és lakosztályai klasszikus designnal rendelkeznek. A szobák nagy ablakokkal, fürdõköpennyel és személyes hangpostával várják a vendégeket.
+Kreatív, ínyenc ételeket szolgálnak fel a teraszos Français étteremben. A további étkezési lehetõségek közé tartozik a Hofgarten udvari étterem, az Oscar s Lounge, valamint a Iroha sushi bár-étterem.
+Az Autorenbar bárban és a Cigarrum szivarszalonban is pihenhetnek a vendégek. Ha aktív kikapcsolódásra vágyik, keresse fel a tornatermet, amely modern fitneszberendezéseket tartalmaz.
+A Willy-Brandt-Platz állomása a Frankfurter Hof mellett van, és 5 különbözõ metróvonalat kínál. A frankfurti központi pályaudvar egy megállóra helyezkedik el.
+');
+insert into szalloda values(3,'DORMERO Hotel Frankfurt','A DORMERO Hotel Frankfurt szállása mindössze 100 méterre fekszik a frankfurti kereskedelmi vásártól. A 4 csillagos szálloda ingyenes Wi-Fi internetet és a minibárban ingyenes italokat kínál. A szállodában szauna is van.
+A DORMERO Frankfurt minden szobája modern, fehér dekorációval és gránit díszítésû fürdõszobával várja vendégeit. A szobák egyedi világítással, korlátlanul nézhetõ filmekkel és iPod hangrendszerrel felszereltek.
+A svédasztalos reggelit minden reggel a DORMERO elegáns éttermében szolgálják fel. Az étterem fapadlóval és stílusos mûalkotásokkal díszített, melyek a Main-folyót ábrázolják. A légkondicionált, elegáns világítással és társalgóval felszerelt bárban italokat szolgálnak fel.
+A DORMERO szállásán saját parkoló áll a vendégek rendelkezésére. A mindössze 300 méterre található Messe vasútállomástól (S-Bahn) a frankfurt központi pályaudvar 3 perc alatt elérhetõ vonattal.
+');
+insert into szalloda values(3,'Jumeirah Frankfurt','Az 5 csillagos dizájnhotel wellness-részleggel, Zen pihenõhellyel, exkluzív BOSE hifirendszerrel felszerelt szobákkal, és a kreatív konyha remekeivel várja vendégeit Frankfurt városának Zeil bevásárlóutcájától 300 méterre.
+A tágas szobák és lakosztályok Hartwig Ebersbach festményeivel díszítettek, valamint síkképernyõs TV-vel és iPod állomással felszereltek. A nyitott-terû fürdõszobában egy szabadon álló kádat helyeztek el. Wi-Fi ingyenesen elérhetõ.
+Trópusi zuhanyok és 2 szauna is található a wellness-részleg területén. A vendégek korlátlanul használhatják a szomszédos Platinum Fitness First Health Club területét és annak fedett medencéjét.
+Szezonális specialitásokat szolgálnak fel az elegáns, borospincével is rendelkezõ Max On One étteremben. A Die Chocolaterie elnevezésû kávézóból a MyZeil bevásárlóközpont közvetlenül elérhetõ.
+A Hauptwache metróállomás és S-Bahn pályaudvar mindössze 100 méterre van a frankfurti hoteltõl. A Römer tér 700 méterre van.
+');
+
+insert into szalloda values(4,'Steigenberger Hotel Berlin','A Berlin Kurfürstendamm bevásárlóutcájától mindössze 200 méterre található Steigenberger szálloda úszómedencével rendelkezõ gyógyfürdõvel, 2 a la carte étteremmel és ingyenes Wi-Fivel várja a vendégeket. A környezetbarát szálloda zéró szén-dioxid-kibocsátású energiaforrásokat használ.
+A 2010-ben felújított, környezetbarát Steigenberger Hotel Berlin tágas, légkondicionált szobái és lakosztályai síkképernyõs TV-vel, tea- és kávéfõzõvel, valamint nagyméretû íróasztallal felszereltek. A szálloda belsõ terei szerves anyagok felhasználásával készültek.
+Autentikus helyi specialitásokat szolgálnak fel a házon belüli Berliner Stube étteremben. A Destille étterem könnyû, nemzetközi ételekkel várja a vendégeket. A zongorabárban díjnyertes koktélok fogyaszthatók.
+A tágas helyszíni termálfürdõhöz fûtött, fedett medence, szépségszalon, és masszázs-szolgáltatás is tartozik. A hotelben kerékpárok bérelhetõk.
+');
+
+insert into szalloda values(4,'Pullman Berlin Schweizerhof','Az 5 csillagos szállodában elegáns szobák, a wellness-részlegben pedig fûtött medence és 24 órás edzõterem várja a vendégeket. A szálloda mindössze 5 perces sétára található a berlini állatkerttõl és a Kurfürstendamm bevásárlóutcától.
+A Pullman Berlin Schweizerhof tágas, modern szobái nagyméretû, síkképernyõs TV-vel, minibárral és 2 üveg ingyenes ásványvízzel felszereltek. A szobákhoz tartozó fürdõszobákban minõségi piperecikkek, fürdõköpeny és papucs áll rendelkezésre.
+A Schweizerhof naponta kínál gazdag büféreggelit, a Xxenia étteremben pedig német és mediterrán ételeket szolgálnak fel. Az elegáns terasszal rendelkezõ lobby bár különféle ételeket és italokat kínál.
+Ingyenes internet áll rendelkezésre a társalgóban. Masszázsok és kozmetikai kezelések a pihentetõ wellness-részlegben vehetõk igénybe.
+A központi elhelyezkedésû Pullman Schweizerhof remek kiindulópont Berlin nevezetességeinek felfedezéséhez. A Zoologischer Garten S-Bahn állomás mindössze 10 perces sétával elérhetõ. A hotel helyszíni parkolási lehetõséget kínál.
+');
+
+insert into szalloda values(4,'Schoenhouse Apartments','A Schoenhouse Apartments önellátó apartmanokat kínál ingyenes Wi-Fi-vel. Egy kávézó is tartozik a szálláshelyhez. Berlin központjában, a Mitte kerületben található, mindössze 100 méterre a Rosa-Luxemburg-Platz metrómegállótól és egy megállóra az Alexanderplatz tértõl.
+A Schoenhouse Apartments tágas apartmanok széles választékát kínálja fa padlóval és magas mennyezettel. Minden apartmanban van nappali, nyílt terû konyhával és étkezõasztallal. Néhányuk síkképernyõs TV-vel és erkéllyel is rendelkezik.
+A Schoenhous kávézója italokkal, snackekkel és házi tésztával várja a vendégeket, és az épület földszintjén található. Minden reggel kontinentális reggeli kerül felszolgálásra.
+A Schoenhouse Apartments a nyüzsgõ Prenzlauer Berg kerület sarkán található. Bárok, kávézók és éttermek vannak a közelben. A népszerû Hackescher Markt területe egy 10-perces sétával elérhetõ.
+Transzfer szolgáltatás is igényelhetõ a Schoenhouse Apartments szállásán.
+');
+
+insert into szalloda values(5,'Wellington','A fényûzõ Wellington Hotel a Salamanca kerületben található, a Retiro Parktól mindössze 100 méterre. A szálloda szabadtéri medencével, valamint élményzuhanyokat és pezsgõfürdõt kínáló wellness-részleggel rendelkezik.
+
+A légkondicionált és hangszigetelt szobákban ingyenes Wi-Fi-csatlakozás és interaktív, síkképernyõs televízió várja a vendégeket. A márvánnyal díszített fürdõszobákban fürdõköpeny és papucs is biztosított.
+
+A szálloda ingyenes, jól felszerelt fitneszrészleget kínál, ahol számos kardiógép várja a vendégeket. Egy nyugágyakkal felszerelt napozóterasz is tartozik a hotelhez.
+
+A szálloda mindössze 5 percre található a Paseo de la Castellana üzleteitõl, valamint a Nemzeti Régészeti Múzeumtól. A Retiro metróállomás csupán 250 méterre fekszik.
+
+A szálloda híres Kabuki étterme finom sushit, a Goizeko Wellington étterem pedig ínyenc baszk ételeket kínál. A szálloda egy kávézóval és egy angol bárral is rendelkezik.
+');
+
+insert into szalloda values(5,'Ada Palace','Az Ada Palace szálloda a híres madridi Gran Via sugárúton helyezkedik el, 400 méterre a Thyssen-Bornemisza Múzeumtól. A szálloda interaktív, síkképernyõs TV-vel felszerelt, elegáns, hangszigetelt szállásegységeket kínál.
+
+A Hotel Palace Ada hagyományosan berendezett, szõnyegpadlós szobáiban egy mûholdas TV és egy hajszárítóval felszerelt, saját fürdõszoba is rendelkezésre áll.
+
+A szálloda Ágora nevû étterme innovatív nemzetközi ételeket kínál. Az szállodában egy elegáns bár is mûködik, amelynek teraszáról csodálatos kilátás nyílik a városra.
+
+Az Ada Palace 24 órás recepciójának személyzete túrákra és élõ elõadásokra szóló jegyek foglalásában is segédkezik, továbbá hasznos információkat nyújt a madridi látnivalókkal és szórakozási lehetõségekkel kapcsolatban.
+
+A szállodától mindössze 8 perces sétára fekszik a város fõtere, a Puerta del Sol. A vendégek gyalogosan 5 perc alatt eljuthatnak a nyüzsgõ Chueca negyedbe. A szállodától kevesebb mint 100 méterre megálló reptéri busz menetideje 15 perc.
+');
+
+insert into szalloda values(5,'Maria Elena Palace','A María Elena Palace épülete Madrid központjában található, 300 méterre a Puerta del Sol tértõl. A szálloda gyönyörû üvegtetõs elõcsarnokkal, és hidromasszázs zuhannyal felszerelt szobákkal várja vendégeit.
+
+A szobák légkondicionáltak, elegánsak és kényelmesek. Mindegyikben mûholdas TV és hajszárítóval felszerelt saját fürdõszoba található.
+
+A szálloda saját étterme a keleti és a hagyományos spanyol konyha ihlette ételeket kínál. A medence melletti bárban könnyû harapnivalók és italok kaphatók.
+
+A szállodától 10 percnyi sétára található a Paseo del Prado, Thyssen otthona, a Prado és a Reina Sofía Múzeum. A szálloda környékén jók a tömegközlekedési kapcsolatok, 300 méteren belül 3 metróállomás is található.
+');
+
+insert into szalloda values(6,'Parco Dei Principi','Rómában, a Villa Borghese Park mellett található Parco dei Principi szobáiból panorámás kilátás nyílik a városra. Luxus szobákkal, nagy szabadtéri medencével és wellness szolgáltatásokkal várja vendégeit.
+
+A Parco Hotel  Spa szobái kényelmes ülõsarokkal és nagy képernyõs LCD TV-vel felszereltek, kábelcsatornákat, valamint pay-per-view, azaz igénybevétel esetén fizetõs csatornákat nézhet. Néhányból kilátás nyílik a Villa Borghese-re és a Szent Péter-bazilikára.
+
+A Grand Hotel étterme, a Pauline Borghese, a szabadtéri medencére és a kertekre néz, és a modern olasz konyha ételeit kínálja. Fogyasszon különféle ropogtatni valókat a medence melletti bárban, vagy próbálja ki az aperitifeket és koktélokat a La Pomme zongorabárban.
+
+A Parco Dei Principi Grand Hotel  Spa wellness részlegében beltéri medencével, finn szaunával és törökfürdõvel kényezteti vendégeit. Vegye igénybe a kozmetikai kezeléseket, és igyon meg egy gyógynövényteát a relaxációs részben.
+
+A Principi Grand Hotel mindössze 5 percnyi sétára található a Galleria Borghesetõl. A Termini pályaudvar egy 15 perces buszozásra van a közeli Via Mercadentetõl.
+');
+
+insert into szalloda values(6,'Jumeirah Grand Via Veneto','A Via Veneto úton álló Grand Hotel Via Veneto luxusszállodája egy történelmi épületben kapott helyet, mindössze 120 méterre a Barberini metrómegállótól. A hotel elegáns szobáit Art Deco stílusban rendezték be. A tetõterasz a Porta Pinciana és a Villa Borghese látnivalóira nyújt kilátást.
+
+A szálloda nyilvános helyiségeit muránói üvegbõl készült csillárok, travertin márvány lépcsõk és kristálymennyezet teszi különlegessé. A hotelt 2009-ben, 2010-ben és 2011-ben Five Star Diamond-díjjal tüntették ki.
+
+A szobákban kézmûves fabútorok és exkluzív textíliák biztosítják a luxus érzését. A carrarai márvánnyal burkolt fürdõszobában exkluzív Bulgari piperecikkek kényeztetik a vendégeket.
+
+A szálloda AQVA gyógyfürdõjében fényterápia és masszázskezelések várják a betérõket. A szolgáltatások között szauna, pezsgõfürdõ és edzõterem is szerepel. A tetõtéri kertben hidromasszázzsal ellátott törökfürdõ is található.
+
+A vendégek egy kellemes ital mellett lazíthatnak a Time Seafood kávézóban és borbárban, ahol friss tengeri halakat, római különlegességeket és a nemzetközi konyha remekeit fogyaszthatják. A készséges személyzet svédasztalos reggelirõl is gondoskodik.
+');
+
+insert into szalloda values(6,'St. George Roma','A St. George Roma épületétõl 1 km-re van a Vatikán és a Piazza Navona tér. A dizájnhotel tetõtéri bárral rendelkezik, mely panorámás kilátást nyújt Róma városára. A szálloda wellness-központtal is várja vendégeit.
+
+A St. George Roma elegánsan berendezett, légkondicionált szobákat kínál síkképernyõs mûholdas televízióval és Wi-Fi internettel.
+
+A St. George Roma belsõ udvarán a vendégek (a kertben elhelyezett asztaloknál) a szabadban is étkezhetnek. A szállodában borozó és étterem is található, mely klasszikus olasz ételeket szolgál fel.
+
+A minimalista, elegáns dizájnnal rendelkezõ hotelben stílusos könyvtár-szalon található, mely márványkiegészítõkkel, csupasz kõfalakkal és kandallóval rendelkezik. A vendégek a nyári idõszakban elfogyaszthatnak egy italt a tetõtéri lobbibárban.
+
+A wellness-központban szépségkezelések és masszázsok foglalhatók. A wellness-központ szaunát, pezsgõfürdõt és törökfürdõt foglal magában.
+
+A nyüzsgõ Trastevere negyed 15 perc sétára van a szállodától. Az Ottaviano metróállomás 1,8 km-re fekszik, az Angyalvár (Hadrianus mauzóleuma) pedig mindössze 500 méterre található.
+');
+
+/*MENETREDEK*/
+insert into menetrend values(2,to_date('2012/06/20 06/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 08/35','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(2,to_date('2012/06/20 08/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 10/35','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(2,to_date('2012/06/20 10/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 12/35','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(2,to_date('2012/06/20 12/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 14/35','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(2,to_date('2012/06/20 14/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 16/35','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(2,to_date('2012/06/20 16/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 18/35','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(2,to_date('2012/06/20 18/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 20/35','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(2,to_date('2012/06/20 20/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 22/35','yyyy/mm/dd hh24/mi'));
+
+
+insert into menetrend values(5,to_date('2012/06/20 07/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 08/45','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(5,to_date('2012/06/20 09/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 10/45','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(5,to_date('2012/06/20 11/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 12/45','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(5,to_date('2012/06/20 13/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 14/45','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(5,to_date('2012/06/20 15/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 16/45','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(5,to_date('2012/06/20 17/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 18/45','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(5,to_date('2012/06/20 19/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 20/45','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(5,to_date('2012/06/20 21/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 22/45','yyyy/mm/dd hh24/mi'));
+
+
+insert into menetrend values(3,to_date('2012/06/20 06/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 09/05','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(3,to_date('2012/06/20 08/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 11/05','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(3,to_date('2012/06/20 10/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 13/05','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(3,to_date('2012/06/20 12/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 15/05','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(3,to_date('2012/06/20 14/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 17/05','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(3,to_date('2012/06/20 16/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 19/05','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(3,to_date('2012/06/20 18/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 21/05','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(3,to_date('2012/06/20 20/30','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 23/05','yyyy/mm/dd hh24/mi'));
+
+insert into jarat values(64,3,0,134);
+
+insert into menetrend values(64,to_date('2012/06/20 05/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 06/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 07/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 08/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 09/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 10/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 11/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 12/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 13/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 14/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 15/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 16/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 17/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 18/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 19/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 20/13','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(64,to_date('2012/06/20 21/00','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 22/13','yyyy/mm/dd hh24/mi'));
+
+insert into jarat values(65,0,3,115);
+
+insert into menetrend values(65,to_date('2012/06/20 06/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 07/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 08/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 09/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 10/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 11/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 12/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 13/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 14/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 15/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 16/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 17/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 18/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 19/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 20/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 21/34','yyyy/mm/dd hh24/mi'));
+insert into menetrend values(65,to_date('2012/06/20 22/15','yyyy/mm/dd hh24/mi'),to_date('2012/06/20 23/34','yyyy/mm/dd hh24/mi'));
+
+insert into jegy values(0,2,1,1);
+insert into jegy values(1,3,1,3);
+insert into jegy values(2,2,2,1);
+insert into jegy values(3,2,2,3);
+insert into jegy values(4,64,1,1);
+
+insert into foglalas values('ARON',1);
+insert into foglalas values('BATA',2);
+insert into foglalas values('GYURI',3);
+
+insert into akcio values(64,55000);

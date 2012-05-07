@@ -7,26 +7,26 @@ CREATE TABLE felhasznalo (
     bankkartyaszam NUMBER(16),
     lakcim VARCHAR2(60),
     telefonszam NUMBER(13)
-);
+)
 
 CREATE TABLE nemzet (
     nemzet_id NUMBER(3) primary key not null,
     orszagnev VARCHAR2(30)
-);
+)
 
 CREATE TABLE tarsasag (
     tarsasag_id NUMBER(5) primary key not null,
     tarsasag_nev VARCHAR2(30),
     nemzet_id NUMBER(3),
     FOREIGN KEY (nemzet_id) REFERENCES nemzet(nemzet_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE varos (
     varos_id NUMBER(3) primary key not null,
     varosnev VARCHAR2(30),
     nemzet_id NUMBER(3),
     FOREIGN KEY (nemzet_id) REFERENCES nemzet(nemzet_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE repulo (
     repulo_id NUMBER(6) primary key not null,
@@ -34,7 +34,7 @@ CREATE TABLE repulo (
     ulohely NUMBER(3),
     tarsasag_id NUMBER(5),
     FOREIGN KEY (tarsasag_id) REFERENCES tarsasag(tarsasag_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE jarat (
     jarat_id NUMBER(6) primary key not null,
@@ -44,7 +44,7 @@ CREATE TABLE jarat (
     FOREIGN KEY (repulo_id) REFERENCES repulo(repulo_id) ON DELETE CASCADE,
     FOREIGN KEY (honnan) REFERENCES varos(varos_id) ON DELETE CASCADE,
     FOREIGN KEY (hova) REFERENCES varos(varos_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE menetrend (
     jarat_id NUMBER(6),
@@ -52,7 +52,7 @@ CREATE TABLE menetrend (
     erkezik DATE,
     PRIMARY KEY (jarat_id, indul),
     FOREIGN KEY (jarat_id) REFERENCES jarat(jarat_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE osztaly (
     szama NUMBER(1) primary key not null,
@@ -60,7 +60,7 @@ CREATE TABLE osztaly (
     relax NUMBER(1),
     extra_borond NUMBER(1),
     internet NUMBER(1)
-);
+)
 
 CREATE TABLE szalloda (
     varos_id NUMBER(3),
@@ -68,21 +68,21 @@ CREATE TABLE szalloda (
     leiras VARCHAR2(4000),
     PRIMARY KEY (varos_id, neve),
     FOREIGN KEY (varos_id) REFERENCES varos(varos_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE biztositas (
     bizt_id NUMBER(3) primary key not null,
     utlemondas NUMBER(1),
     poggyasz NUMBER(1),
     arvisszaad NUMBER(1)
-);
+)
 
 CREATE TABLE akcio (
     jarat_id NUMBER(6),
     ujar NUMBER(6),
     PRIMARY KEY (jarat_id, ujar),
     FOREIGN KEY (jarat_id) REFERENCES jarat(jarat_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE jegy (
     jegy_id NUMBER(9) primary key not null,
@@ -92,7 +92,7 @@ CREATE TABLE jegy (
     FOREIGN KEY (jarat_id) REFERENCES jarat (jarat_id) ON DELETE CASCADE,
     FOREIGN KEY (osztaly_id) REFERENCES osztaly(szama) ON DELETE CASCADE,
     FOREIGN KEY (bizt_id) REFERENCES biztositas(bizt_id) ON DELETE CASCADE
-);
+)
 
 CREATE TABLE foglalas (
     username VARCHAR2(16),

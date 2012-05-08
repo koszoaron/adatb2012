@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class Felhasznalo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -104,5 +104,31 @@ public class Felhasznalo implements Serializable {
                 + ", szuletett=" + szuletett + ", bankkartyaszam="
                 + bankkartyaszam + ", lakcim=" + lakcim + ", telefonszam="
                 + telefonszam + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Felhasznalo other = (Felhasznalo) obj;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
     }
 }

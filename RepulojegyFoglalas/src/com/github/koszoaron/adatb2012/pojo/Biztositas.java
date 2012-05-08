@@ -55,4 +55,26 @@ public class Biztositas {
         return "Biztositas [biztId=" + biztId + ", utlemondas=" + utlemondas
                 + ", poggyasz=" + poggyasz + ", arvisszaad=" + arvisszaad + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + biztId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Biztositas other = (Biztositas) obj;
+        if (biztId != other.biztId)
+            return false;
+        return true;
+    }
 }

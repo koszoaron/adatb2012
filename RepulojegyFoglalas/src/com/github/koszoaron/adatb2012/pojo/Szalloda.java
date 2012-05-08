@@ -45,4 +45,35 @@ public class Szalloda {
         return "Szalloda [varos=" + varos + ", nev=" + nev + ", leiras="
                 + leiras + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((nev == null) ? 0 : nev.hashCode());
+        result = prime * result + ((varos == null) ? 0 : varos.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Szalloda other = (Szalloda) obj;
+        if (nev == null) {
+            if (other.nev != null)
+                return false;
+        } else if (!nev.equals(other.nev))
+            return false;
+        if (varos == null) {
+            if (other.varos != null)
+                return false;
+        } else if (!varos.equals(other.varos))
+            return false;
+        return true;
+    }
 }

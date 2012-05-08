@@ -67,4 +67,26 @@ public class Osztaly {
                 + relax + ", extraBorond=" + extraBorond + ", internet="
                 + internet + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + szama;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Osztaly other = (Osztaly) obj;
+        if (szama != other.szama)
+            return false;
+        return true;
+    }
 }

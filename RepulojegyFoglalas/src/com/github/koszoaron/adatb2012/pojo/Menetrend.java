@@ -47,4 +47,35 @@ public class Menetrend {
         return "Menetrend [jarat=" + jarat + ", indul=" + indul + ", erkezik="
                 + erkezik + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((indul == null) ? 0 : indul.hashCode());
+        result = prime * result + ((jarat == null) ? 0 : jarat.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Menetrend other = (Menetrend) obj;
+        if (indul == null) {
+            if (other.indul != null)
+                return false;
+        } else if (!indul.equals(other.indul))
+            return false;
+        if (jarat == null) {
+            if (other.jarat != null)
+                return false;
+        } else if (!jarat.equals(other.jarat))
+            return false;
+        return true;
+    }
 }

@@ -54,5 +54,27 @@ public class Jegy {
     public String toString() {
         return "Jegy [jegyId=" + jegyId + ", jarat=" + jarat + ", osztaly="
                 + osztaly + ", biztositas=" + biztositas + "]";
-    }    
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + jegyId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Jegy other = (Jegy) obj;
+        if (jegyId != other.jegyId)
+            return false;
+        return true;
+    }
 }

@@ -45,4 +45,26 @@ public class Tarsasag {
         return "Tarsasag [tarsasagId=" + tarsasagId + ", tarsasagNev="
                 + tarsasagNev + ", nemzet=" + nemzet + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + tarsasagId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Tarsasag other = (Tarsasag) obj;
+        if (tarsasagId != other.tarsasagId)
+            return false;
+        return true;
+    }
 }

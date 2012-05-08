@@ -55,4 +55,26 @@ public class Repulo {
         return "Repulo [repuloId=" + repuloId + ", tipus=" + tipus
                 + ", ulohely=" + ulohely + ", tarsasag=" + tarsasag + "]";
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + repuloId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Repulo other = (Repulo) obj;
+        if (repuloId != other.repuloId)
+            return false;
+        return true;
+    }
 }

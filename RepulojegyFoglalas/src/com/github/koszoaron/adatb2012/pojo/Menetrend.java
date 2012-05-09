@@ -1,6 +1,6 @@
 package com.github.koszoaron.adatb2012.pojo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Menetrend {
     private Jarat jarat;

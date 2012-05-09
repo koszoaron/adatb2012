@@ -16,23 +16,23 @@ public class FelhasznaloFieldFactory implements FormFieldFactory {
         String pid = (String)propertyId;
         
         if (pid.equals(Constants.USERNAME)) {
-            return new TextField(Constants.USERNAME);
+            return new TextField(Constants.FIELD_LABEL_USERNAME);
         } else if (pid.equals(Constants.PASS)) {
-            return new PasswordField(Constants.PASS);
+            return new PasswordField(Constants.FIELD_LABEL_PASS);
         } else if (pid.equals(Constants.OKMANYSZAM)) {
-            return new TextField(Constants.OKMANYSZAM);
+            return new TextField(Constants.FIELD_LABEL_OKMANYSZAM);
         } else if (pid.equals(Constants.NEVE)) {
-            return new TextField(Constants.NEVE);
+            return new TextField(Constants.FIELD_LABEL_NEVE);
         } else if (pid.equals(Constants.SZULETETT)) {
-            DateField df = new DateField(Constants.SZULETETT);
+            DateField df = new DateField(Constants.FIELD_LABEL_SZULETETT);
             df.setDateFormat("yyyy-MM-dd");
             return df;
         } else if (pid.equals(Constants.BANKKARTYASZAM)) {
-            return new TextField(Constants.BANKKARTYASZAM);
+            return new TextField(Constants.FIELD_LABEL_BANKKARTYASZAM);
         } else if (pid.equals(Constants.LAKCIM)) {
-            return new TextField(Constants.LAKCIM);
+            return new TextField(Constants.FIELD_LABEL_LAKCIM);
         } else if (pid.equals(Constants.TELEFONSZAM)) {
-            return new TextField(Constants.TELEFONSZAM);
+            return new TextField(Constants.FIELD_LABEL_TELEFONSZAM);
         }
         
         return null;

@@ -1,7 +1,11 @@
 package com.github.koszoaron.adatb2012.util;
 
 public class Constants {
-    public static final String APP_NAME_STRING = "Repülőjegy foglalás";
+    public static final String APP_NAME_STRING = "Repülőjegy Foglalás";
+    public static final String WINDOW_LOGIN_CAPS = "BEJELENTKEZÉS";
+    public static final String WINDOW_REG_CAPS = "REGISZTRÁCIÓ";
+    public static final String WINDOW_ADMIN_CAPS = "ADMINISZTRÁCIÓ";
+    public static final String WINDOW_USER_CAPS = "REPÜLŐJEGY FOGLALÁS";
     
     public static final String BTN_LABEL_TABLE_FELHASZNALO = "Felhasználó";
     public static final String BTN_LABEL_TABLE_FOGLALAS = "Foglalás";
@@ -22,6 +26,16 @@ public class Constants {
     public static final String BTN_LABEL_LOGOFF = "Kijelentkezés";
     public static final String BTN_LABEL_SAVE = "Mentés";
     public static final String BTN_LABEL_CANCEL = "Mégsem";
+    
+    public static final String FIELD_LABEL_USERNAME = "Felhasználónév";
+    public static final String FIELD_LABEL_PASS = "Jelszó";
+    public static final String FIELD_LABEL_OKMANYSZAM = "Okmányszám";
+    public static final String FIELD_LABEL_NEVE = "Név";
+    public static final String FIELD_LABEL_SZULETETT = "Született";
+    public static final String FIELD_LABEL_BANKKARTYASZAM = "Bankkártyaszám";
+    public static final String FIELD_LABEL_LAKCIM = "Lakcím";
+    public static final String FIELD_LABEL_TELEFONSZAM = "Telefonszám";
+    public static final String FIELD_LABEL_FELHASZNALO_POJO = "Felhasználó";
     
     public static final String PROPERTIES_FILENAME = "db.properties";
     public static final String PROPERTIES_URL = "URL";

@@ -1,10 +1,12 @@
 package com.github.koszoaron.adatb2012.util;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1955,5 +1957,37 @@ public class DatabaseService {
         }
         
         return rowCount > 0;
+    }
+    
+    public boolean callRegisztralte(String user, String pass) {
+        CallableStatement call = null;
+        int res = 0;
+        boolean ans = false;
+        
+        try {
+            call = connection.prepareCall("{? = call regisztralte(?, ?)}");
+            call.registerOutParameter(1, Types.NUMERIC);
+            call.setString(2, user);
+            call.setString(3, pass);
+            call.execute();
+            
+            res = call.getInt(1);
+            
+            if (res == 1) {
+                ans = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (call != null) {
+                    call.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return ans;
     }
 }

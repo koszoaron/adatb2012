@@ -1,5 +1,6 @@
 package com.github.koszoaron.adatb2012;
 
+import java.util.Vector;
 import com.github.koszoaron.adatb2012.field.AkcioFieldFactory;
 import com.github.koszoaron.adatb2012.field.BiztositasFieldFactory;
 import com.github.koszoaron.adatb2012.field.FelhasznaloFieldFactory;
@@ -39,12 +40,17 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.LoginForm.LoginEvent;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.LoginForm;
+import com.vaadin.ui.LoginForm.LoginListener;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -59,9 +65,16 @@ public class RepulojegyfoglalasApplication extends Application {
     private Table elementList = new Table();
     private VerticalLayout editorLayout = new VerticalLayout();
     private Form elementEditor = new Form();
+    private Form registrationForm;
     private Button btnAdd;
     private Button btnDelete;
     private Button btnRefresh;
+    
+    private Window mainWindow;
+    private Window loginWindow;
+    private Window registrationWindow;
+    private Window userWindow;
+    private Window adminWindow;
     
     private BeanItemContainer<Felhasznalo> felhasznalok;
     private BeanItemContainer<Nemzet> nemzetek;
@@ -100,7 +113,11 @@ public class RepulojegyfoglalasApplication extends Application {
         jegyek = new BeanItemContainer<Jegy>(Jegy.class);
         foglalasok = new BeanItemContainer<Foglalas>(Foglalas.class);
         
-        setMainWindow(new Window(Constants.APP_NAME_STRING + " - Admin interface", initAdminLayout()));
+        initWindows();
+        
+        mainWindow.addWindow(loginWindow);
+        
+        setMainWindow(mainWindow);
         setListeners();
 	}
         
@@ -623,11 +640,38 @@ public class RepulojegyfoglalasApplication extends Application {
         getMainWindow().showNotification(n);
     }
     
+    private void initWindows() {
+        mainWindow = new Window(Constants.APP_NAME_STRING);
+        
+        loginWindow = new Window(Constants.WINDOW_LOGIN_CAPS, initLoginLayout());
+        loginWindow.setClosable(false);
+        loginWindow.setResizable(false);
+        loginWindow.setModal(true);
+        loginWindow.setDraggable(false);
+        
+        registrationWindow = new Window(Constants.WINDOW_REG_CAPS, initRegistrationLayout());
+        registrationWindow.setResizable(false);
+        registrationWindow.setModal(true);
+        registrationWindow.setDraggable(false);
+        
+        adminWindow = new Window(Constants.WINDOW_ADMIN_CAPS, initAdminLayout());
+        adminWindow.setClosable(false);
+        adminWindow.setResizable(false);
+        adminWindow.setModal(true);
+        adminWindow.setDraggable(false);
+        
+        userWindow = new Window(Constants.WINDOW_USER_CAPS);
+        userWindow.setClosable(false);
+        userWindow.setResizable(false);
+        userWindow.setModal(true);
+        userWindow.setDraggable(false);
+    }
+    
     private AbsoluteLayout initAdminLayout() {
         AbsoluteLayout mainLayout = new AbsoluteLayout();
         mainLayout.setImmediate(false);
-        mainLayout.setWidth("100%");
-        mainLayout.setHeight("100%");
+        mainLayout.setWidth("900px");
+        mainLayout.setHeight("600px");
         mainLayout.setMargin(false);
         
         //setMainWindow(new Window(Constants.APP_NAME_STRING + " - Admin interface", mainLayout));
@@ -653,20 +697,20 @@ public class RepulojegyfoglalasApplication extends Application {
         labelLogout.setHeight("-1px");
         labelLogout.setMargin(false);
         
-        // label_title
-        Label label_title = new Label();
-        label_title.setImmediate(false);
-        label_title.setWidth("-1px");
-        label_title.setHeight("-1px");
-        label_title.setValue("Admin Interface");
-        labelLogout.addComponent(label_title);
-        
         // button_logoff
         Button button_logoff = new Button();
         button_logoff.setCaption(Constants.BTN_LABEL_LOGOFF);
         button_logoff.setImmediate(false);
         button_logoff.setWidth("100.0%");
         button_logoff.setHeight("-1px");
+        button_logoff.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                mainWindow.removeWindow(adminWindow);
+                mainWindow.addWindow(loginWindow);
+            }
+        });
         labelLogout.addComponent(button_logoff);
         
         topBar.addComponent(labelLogout);
@@ -998,7 +1042,223 @@ public class RepulojegyfoglalasApplication extends Application {
     }
     
     private AbsoluteLayout initLoginLayout() {
-        return null;
+        AbsoluteLayout mainLayout = new AbsoluteLayout();
+        mainLayout.setImmediate(false);
+        mainLayout.setWidth("400px");
+        mainLayout.setHeight("200px");
+        mainLayout.setMargin(false);
+        
+        // horizontalLayout_2
+        HorizontalLayout horizontalLayout_2 = new HorizontalLayout();
+        horizontalLayout_2.setImmediate(false);
+        horizontalLayout_2.setWidth("100.0%");
+        horizontalLayout_2.setHeight("100.0%");
+        horizontalLayout_2.setMargin(false);
+        
+        // verticalLayout_2
+        VerticalLayout verticalLayout_2 = new VerticalLayout();
+        verticalLayout_2.setImmediate(false);
+        verticalLayout_2.setWidth("100.0%");
+        verticalLayout_2.setHeight("100.0%");
+        verticalLayout_2.setMargin(true);
+        
+        // Reg button
+        Button button_3 = new Button();
+        button_3.setCaption("Regisztrálok");
+        button_3.setImmediate(false);
+        button_3.setWidth("80.0%");
+        button_3.setHeight("-1px");
+        button_3.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                mainWindow.addWindow(registrationWindow);
+                registrationForm.discard(); //nemjo
+            }
+        });
+        verticalLayout_2.addComponent(button_3);
+        verticalLayout_2.setComponentAlignment(button_3, new Alignment(33));
+        
+        horizontalLayout_2.addComponent(verticalLayout_2);
+        horizontalLayout_2.setExpandRatio(verticalLayout_2, 1.0f);
+        
+        VerticalLayout verticalLayout_1 = new VerticalLayout();
+        verticalLayout_1.setImmediate(false);
+        verticalLayout_1.setWidth("100.0%");
+        verticalLayout_1.setHeight("100.0%");
+        verticalLayout_1.setMargin(true);
+        
+        // label_1
+        Label label_1 = new Label();
+        label_1.setImmediate(false);
+        label_1.setWidth("-1px");
+        label_1.setHeight("-1px");
+        label_1.setValue(Constants.FIELD_LABEL_USERNAME);
+        verticalLayout_1.addComponent(label_1);
+        
+        // textField_1
+        final TextField textField_1 = new TextField();
+        textField_1.setImmediate(false);
+        textField_1.setWidth("-1px");
+        textField_1.setHeight("-1px");
+        //textField_1.setSecret(false);
+        verticalLayout_1.addComponent(textField_1);
+        
+        // label_2
+        Label label_2 = new Label();
+        label_2.setImmediate(false);
+        label_2.setWidth("-1px");
+        label_2.setHeight("-1px");
+        label_2.setValue(Constants.FIELD_LABEL_PASS);
+        verticalLayout_1.addComponent(label_2);
+        
+        // passwordField_1
+        final PasswordField passwordField_1 = new PasswordField();
+        passwordField_1.setImmediate(false);
+        passwordField_1.setWidth("-1px");
+        passwordField_1.setHeight("-1px");
+        verticalLayout_1.addComponent(passwordField_1);
+        
+        // verticalLayout_3
+        VerticalLayout verticalLayout_3 = new VerticalLayout();
+        verticalLayout_3.setImmediate(false);
+        verticalLayout_3.setWidth("100.0%");
+        verticalLayout_3.setHeight("100.0%");
+        verticalLayout_3.setMargin(false);
+        
+        // Login button
+        Button button_1 = new Button();
+        button_1.setCaption("Login");
+        button_1.setImmediate(false);
+        button_1.setWidth("100.0%");
+        button_1.setHeight("-1px");
+        button_1.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                boolean isRegOk = service.callRegisztralte((String)textField_1.getValue(), (String)passwordField_1.getValue());
+                
+                if (isRegOk) {
+                    mainWindow.removeWindow(loginWindow);
+                    mainWindow.addWindow(userWindow);
+                } else {
+                    showWarning("Hibás felhasználónév vagy jelszó", "Bejelentkezés");
+                }
+            }
+        });
+        verticalLayout_3.addComponent(button_1);
+        verticalLayout_3.setComponentAlignment(button_1, new Alignment(48));
+        
+        // Admin button
+        Button button_4 = new Button();
+        button_4.setCaption("Admin");
+        button_4.setImmediate(true);
+        button_4.setWidth("100.0%");
+        button_4.setHeight("-1px");
+        button_4.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                boolean isRegOk = service.callRegisztralte((String)textField_1.getValue(), (String)passwordField_1.getValue());
+                
+                if (isRegOk) {
+                    mainWindow.removeWindow(loginWindow);
+                    mainWindow.addWindow(adminWindow);
+                } else {
+                    showWarning("Hibás felhasználónév vagy jelszó", "Bejelentkezés");
+                }
+            }
+        });
+        verticalLayout_3.addComponent(button_4);
+        verticalLayout_3.setComponentAlignment(button_4, new Alignment(20));
+        
+        verticalLayout_1.addComponent(verticalLayout_3);
+        verticalLayout_1.setExpandRatio(verticalLayout_3, 1.0f);
+        
+        horizontalLayout_2.addComponent(verticalLayout_1);
+        horizontalLayout_2.setExpandRatio(verticalLayout_1, 1.0f);
+
+        mainLayout.addComponent(horizontalLayout_2, "left:0.0px;");
+        
+        return mainLayout;
+    }
+    
+    private AbsoluteLayout initRegistrationLayout() {
+        AbsoluteLayout mainLayout = new AbsoluteLayout();
+        mainLayout.setImmediate(false);
+        mainLayout.setWidth("400px");
+        mainLayout.setHeight("500px");
+        mainLayout.setMargin(false);
+        
+        // verticalLayout_1
+        VerticalLayout verticalLayout_1 = new VerticalLayout();
+        verticalLayout_1.setImmediate(false);
+        verticalLayout_1.setWidth("100.0%");
+        verticalLayout_1.setHeight("100.0%");
+        verticalLayout_1.setMargin(true);
+        verticalLayout_1.setSpacing(true);
+        
+        // registrationForm
+        registrationForm = new Form();
+        registrationForm.setStyleName("v-loginform");
+        registrationForm.setImmediate(true);
+        registrationForm.setWidth("-1px");
+        registrationForm.setHeight("100.0%");
+        
+        registrationForm.setFormFieldFactory(new FelhasznaloFieldFactory());
+        final BeanItem<Felhasznalo> regFelhasznalo = new BeanItem<Felhasznalo>(new Felhasznalo("", "", "", "", null, 0, "", 0));
+        registrationForm.setItemDataSource(regFelhasznalo);
+        Vector<Object> regFormOrder = new Vector<Object>();
+        regFormOrder.add(Constants.USERNAME);
+        regFormOrder.add(Constants.PASS);
+        regFormOrder.add(Constants.OKMANYSZAM);
+        regFormOrder.add(Constants.NEVE);
+        regFormOrder.add(Constants.SZULETETT);
+        regFormOrder.add(Constants.BANKKARTYASZAM);
+        regFormOrder.add(Constants.LAKCIM);
+        regFormOrder.add(Constants.TELEFONSZAM);
+        registrationForm.setVisibleItemProperties(regFormOrder);
+        
+        verticalLayout_1.addComponent(registrationForm);
+        verticalLayout_1.setExpandRatio(registrationForm, 1.0f);
+        verticalLayout_1.setComponentAlignment(registrationForm, new Alignment(48));
+        
+        // horizontalLayout_1
+        HorizontalLayout horizontalLayout_1 = new HorizontalLayout();
+        horizontalLayout_1.setImmediate(false);
+        horizontalLayout_1.setWidth("100.0%");
+        horizontalLayout_1.setHeight("-1px");
+        horizontalLayout_1.setMargin(false);
+        
+        // OK button
+        Button button_1 = new Button();
+        button_1.setCaption("OK");
+        button_1.setImmediate(false);
+        button_1.setWidth("100.0%");
+        button_1.setHeight("-1px");
+        button_1.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                //save form values
+                registrationForm.commit();
+                System.out.println(regFelhasznalo.getBean().toString());
+                service.insertFelhasznalo(regFelhasznalo.getBean());
+                
+                mainWindow.removeWindow(registrationWindow);
+            }
+        });
+        
+        horizontalLayout_1.addComponent(button_1);
+        horizontalLayout_1.setExpandRatio(button_1, 1.0f);
+        horizontalLayout_1.setComponentAlignment(button_1, new Alignment(48));
+        
+        verticalLayout_1.addComponent(horizontalLayout_1);
+        verticalLayout_1.setComponentAlignment(horizontalLayout_1,
+                new Alignment(24));
+        mainLayout.addComponent(verticalLayout_1, "left:0.0px;");
+        
+        return mainLayout;
     }
     
     private AbsoluteLayout initUserLayout() {

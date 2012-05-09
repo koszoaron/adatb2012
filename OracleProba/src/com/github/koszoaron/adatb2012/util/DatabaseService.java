@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import com.github.koszoaron.adatb2012.pojo.Felhasznalo;
 import oracle.jdbc.pool.OracleDataSource;
@@ -64,11 +66,11 @@ public class DatabaseService {
                 result.setUsername(queryResult.getString(Constants.USERNAME));
                 result.setPass(queryResult.getString(Constants.PASS));
                 result.setOkmanyszam(queryResult.getString(Constants.OKMANYSZAM));
-                result.setNev(queryResult.getString(Constants.NEVE));
+                result.setNeve(queryResult.getString(Constants.NEVE));
                 result.setSzuletett(queryResult.getDate(Constants.SZULETETT));
-                result.setBankkartyaszam(queryResult.getString(Constants.BANKKARTYASZAM));
+                result.setBankkartyaszam(queryResult.getInt(Constants.BANKKARTYASZAM));
                 result.setLakcim(queryResult.getString(Constants.LAKCIM));
-                result.setTelefonszam(queryResult.getString(Constants.TELEFONSZAM));
+                result.setTelefonszam(queryResult.getInt(Constants.TELEFONSZAM));
             }
             
             connection.commit();
@@ -85,5 +87,107 @@ public class DatabaseService {
         }
         
         return result;
+    }
+    
+    public List<Felhasznalo> getAllFelhasznalo() {
+        PreparedStatement selectAll = null;
+        List<Felhasznalo> result = new ArrayList<Felhasznalo>();
+        
+        try {
+            selectAll = connection.prepareStatement("select username, pass, okmanyszam, neve, szuletett, bankkartyaszam, lakcim, telefonszam from felhasznalo");
+            ResultSet queryResult = selectAll.executeQuery();
+            
+            while (queryResult.next()) {
+                Felhasznalo f = new Felhasznalo();
+                f.setUsername(queryResult.getString(Constants.USERNAME));
+                f.setPass(queryResult.getString(Constants.PASS));
+                f.setOkmanyszam(queryResult.getString(Constants.OKMANYSZAM));
+                f.setNeve(queryResult.getString(Constants.NEVE));
+                f.setSzuletett(queryResult.getDate(Constants.SZULETETT));
+                f.setBankkartyaszam(queryResult.getInt(Constants.BANKKARTYASZAM));
+                f.setLakcim(queryResult.getString(Constants.LAKCIM));
+                f.setTelefonszam(queryResult.getInt(Constants.TELEFONSZAM));
+                
+                result.add(f);
+            }
+            
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (selectAll != null) {
+                    selectAll.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
+    }
+    
+    public boolean insertFelhasznalo(Felhasznalo f) {
+        PreparedStatement insert = null;
+        int rowCount = 0;
+        
+        try {
+            insert = connection.prepareStatement("insert into felhasznalo values (?, ?, ?, ?, ?, ?, ?, ?)");
+            insert.setString(1, f.getUsername());
+            insert.setString(2, f.getPass());
+            insert.setString(3, f.getOkmanyszam());
+            insert.setString(4, f.getNeve());
+            insert.setDate(5, f.getSzuletett());
+            insert.setInt(6, f.getBankkartyaszam());
+            insert.setString(7, f.getLakcim());
+            insert.setInt(8, f.getTelefonszam());
+            
+            rowCount = insert.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (insert != null) {
+                    insert.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return rowCount > 0;
+    }
+    
+    public boolean updateFelhasznalo(Felhasznalo f) {
+        PreparedStatement update = null;
+        int rowCount = 0;
+        
+        try {
+            update = connection.prepareStatement("update felhasznalo set pass=?, okmanyszam=?, neve=?, szuletett=?, bankkartyaszam=?, lakcim=?, telefonszam=? where username=?");
+            update.setString(1, f.getPass());
+            update.setString(2, f.getOkmanyszam());
+            update.setString(3, f.getNeve());
+            update.setDate(4, f.getSzuletett());
+            update.setInt(5, f.getBankkartyaszam());
+            update.setString(6, f.getLakcim());
+            update.setInt(7, f.getTelefonszam());
+            update.setString(8, f.getUsername());
+            
+            rowCount = update.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (update != null) {
+                    update.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return rowCount > 0;
     }
 }

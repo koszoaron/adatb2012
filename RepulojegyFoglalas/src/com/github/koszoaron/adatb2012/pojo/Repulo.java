@@ -3,14 +3,14 @@ package com.github.koszoaron.adatb2012.pojo;
 public class Repulo {
     private int repuloId;
     private String tipus;
-    private String ulohely;
+    private int ulohely;
     private Tarsasag tarsasag;
     
     public Repulo() {
         super();
     }
 
-    public Repulo(int repuloId, String tipus, String ulohely, Tarsasag tarsasag) {
+    public Repulo(int repuloId, String tipus, int ulohely, Tarsasag tarsasag) {
         super();
         this.repuloId = repuloId;
         this.tipus = tipus;
@@ -34,11 +34,11 @@ public class Repulo {
         this.tipus = tipus;
     }
 
-    public String getUlohely() {
+    public int getUlohely() {
         return ulohely;
     }
 
-    public void setUlohely(String ulohely) {
+    public void setUlohely(int ulohely) {
         this.ulohely = ulohely;
     }
 

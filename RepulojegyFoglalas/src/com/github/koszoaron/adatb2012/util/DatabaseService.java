@@ -548,6 +548,38 @@ public class DatabaseService {
         return result;
     }
     
+    public Varos getVarosByName(String nev) {
+        PreparedStatement selectById = null;
+        Varos result = null;
+        
+        try {
+            selectById = connection.prepareStatement("select varos_id, varosnev, nemzet_id from varos where varosnev=?");
+            selectById.setString(1, nev);
+            ResultSet queryResult = selectById.executeQuery();
+            
+            if (queryResult.next()) {
+                result = new Varos();
+                result.setVarosId(queryResult.getInt(Constants.VAROS_ID));
+                result.setVarosnev(queryResult.getString(Constants.VAROSNEV));
+                result.setNemzet(getNemzetById(queryResult.getInt(Constants.NEMZET_ID)));                
+            }
+            
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (selectById != null) {
+                    selectById.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
+    }
+    
     public List<Varos> getAllVaros() {
         PreparedStatement selectAll = null;
         List<Varos> result = new ArrayList<Varos>();
@@ -875,6 +907,42 @@ public class DatabaseService {
         return result;
     }
     
+    public List<Jarat> getJaratByVaros(Varos varos) {
+        PreparedStatement selectAll = null;
+        List<Jarat> result = new ArrayList<Jarat>();
+        
+        try {
+            selectAll = connection.prepareStatement("select jarat_id, honnan, hova, repulo_id from jarat where honnan=? or hova=?");
+            selectAll.setInt(1, varos.getVarosId());
+            selectAll.setInt(2, varos.getVarosId());
+            ResultSet queryResult = selectAll.executeQuery();
+            
+            while (queryResult.next()) {
+                Jarat j = new Jarat();
+                j.setJaratId(queryResult.getInt(Constants.JARAT_ID));
+                j.setHonnan(getVarosById(queryResult.getInt(Constants.HONNAN)));
+                j.setHova(getVarosById(queryResult.getInt(Constants.HOVA)));
+                j.setRepulo(getRepuloById(queryResult.getInt(Constants.REPULO_ID)));
+                
+                result.add(j);
+            }
+            
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (selectAll != null) {
+                    selectAll.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
+    }
+    
     public boolean insertJarat(Jarat j) {
         PreparedStatement insert = null;
         int rowCount = 0;
@@ -964,6 +1032,40 @@ public class DatabaseService {
             selectById = connection.prepareStatement("select jarat_id, to_char(indul, 'yyyy-mm-dd hh24:mi') as indul, to_char(erkezik, 'yyyy-mm-dd hh24:mi') as erkezik from menetrend where jarat_id=? and indul=to_date(?, 'yyyy-mm-dd hh24:mi')");
             selectById.setInt(1, id);
             selectById.setString(2, dateFormat.format(date));
+            ResultSet queryResult = selectById.executeQuery();
+            
+            if (queryResult.next()) {
+                result = new Menetrend();
+                result.setJarat(getJaratById(queryResult.getInt(Constants.JARAT_ID)));
+                result.setIndul(dateFormat.parse(queryResult.getString(Constants.INDUL)));
+                result.setErkezik(dateFormat.parse(queryResult.getString(Constants.ERKEZIK)));
+            }
+            
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (selectById != null) {
+                    selectById.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
+    }
+    
+    public Menetrend getMenetrendByJarat(int id) {
+        PreparedStatement selectById = null;
+        Menetrend result = null;
+        
+        try {
+            selectById = connection.prepareStatement("select jarat_id, to_char(indul, 'yyyy-mm-dd hh24:mi') as indul, to_char(erkezik, 'yyyy-mm-dd hh24:mi') as erkezik from menetrend where jarat_id=?");
+            selectById.setInt(1, id);
             ResultSet queryResult = selectById.executeQuery();
             
             if (queryResult.next()) {
@@ -1301,6 +1403,40 @@ public class DatabaseService {
         
         try {
             selectAll = connection.prepareStatement("select varos_id, neve, leiras from szalloda");
+            ResultSet queryResult = selectAll.executeQuery();
+            
+            while (queryResult.next()) {
+                Szalloda sz = new Szalloda();
+                sz.setVaros(getVarosById(queryResult.getInt(Constants.VAROS_ID)));
+                sz.setNev(queryResult.getString(Constants.NEVE));
+                sz.setLeiras(queryResult.getString(Constants.LEIRAS));
+                
+                result.add(sz);
+            }
+            
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (selectAll != null) {
+                    selectAll.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
+    }
+    
+    public List<Szalloda> getSzallodaByVaros(Varos varos) {
+        PreparedStatement selectAll = null;
+        List<Szalloda> result = new ArrayList<Szalloda>();
+        
+        try {
+            selectAll = connection.prepareStatement("select varos_id, neve, leiras from szalloda where varos_id=?");
+            selectAll.setInt(1, varos.getVarosId());
             ResultSet queryResult = selectAll.executeQuery();
             
             while (queryResult.next()) {
@@ -1879,6 +2015,39 @@ public class DatabaseService {
         return result;
     }
     
+    public List<Foglalas> getAllFoglalasByUser(String username) {
+        PreparedStatement selectAll = null;
+        List<Foglalas> result = new ArrayList<Foglalas>();
+        
+        try {
+            selectAll = connection.prepareStatement("select username, jegy_id from foglalas where username=?");
+            selectAll.setString(1, username);
+            ResultSet queryResult = selectAll.executeQuery();
+            
+            while (queryResult.next()) {
+                Foglalas f = new Foglalas();
+                f.setUser(getFelhasznaloByUsername(queryResult.getString(Constants.USERNAME)));
+                f.setJegy(getJegyById(queryResult.getInt(Constants.JEGY_ID)));
+                
+                result.add(f);
+            }
+            
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (selectAll != null) {
+                    selectAll.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
+    }
+    
     public boolean insertFoglalas(Foglalas f) {
         PreparedStatement insert = null;
         int rowCount = 0;
@@ -1976,6 +2145,59 @@ public class DatabaseService {
             if (res == 1) {
                 ans = true;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (call != null) {
+                    call.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return ans;
+    }
+    
+    public int callJegyAr(Jarat j, Osztaly o, Biztositas b) {
+        CallableStatement call = null;
+        int ans = 0;
+        
+        try {
+            call = connection.prepareCall("{? = call jegy_ar(?, ?, ?, 0)}");
+            call.registerOutParameter(1, Types.NUMERIC);
+            call.setInt(2, j.getJaratId());
+            call.setInt(3, o.getSzama());
+            call.setInt(4, b.getBiztId());
+            call.execute();
+            
+            ans = call.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (call != null) {
+                    call.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return ans;
+    }
+    
+    public int callPopularis() {
+        CallableStatement call = null;
+        int ans = 0;
+        
+        try {
+            call = connection.prepareCall("{? = call popularis}");
+            call.registerOutParameter(1, Types.NUMERIC);
+            call.execute();
+            
+            ans = call.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

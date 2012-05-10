@@ -6,6 +6,7 @@ public class Constants {
     public static final String WINDOW_REG_CAPS = "REGISZTRÁCIÓ";
     public static final String WINDOW_ADMIN_CAPS = "ADMINISZTRÁCIÓ";
     public static final String WINDOW_USER_CAPS = "REPÜLŐJEGY FOGLALÁS";
+    public static final String LABEL_GREETING = "Üdv, ";
     
     public static final String BTN_LABEL_TABLE_FELHASZNALO = "Felhasználó";
     public static final String BTN_LABEL_TABLE_FOGLALAS = "Foglalás";

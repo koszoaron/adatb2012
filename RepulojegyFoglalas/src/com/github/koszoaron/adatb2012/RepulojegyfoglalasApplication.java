@@ -1,5 +1,6 @@
 package com.github.koszoaron.adatb2012;
 
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import com.github.koszoaron.adatb2012.field.AkcioFieldFactory;
 import com.github.koszoaron.adatb2012.field.BiztositasFieldFactory;
@@ -36,18 +37,18 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.AbsoluteLayout;
+import com.vaadin.ui.AbstractLayout;
+import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.LoginForm.LoginEvent;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.LoginForm;
-import com.vaadin.ui.LoginForm.LoginListener;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -64,17 +65,33 @@ public class RepulojegyfoglalasApplication extends Application {
     
     private Table elementList = new Table();
     private VerticalLayout editorLayout = new VerticalLayout();
+    private HorizontalLayout hl_myResDetails;
+    private VerticalLayout vl_ResultDetails;
     private Form elementEditor = new Form();
     private Form registrationForm;
+    private Form formUserEdit;
+    private Form formTicket;
+    private Label formBookings;
+    private Label resultLabel;
+    private Table table_Results;
+    private Table table_myRes;
     private Button btnAdd;
     private Button btnDelete;
     private Button btnRefresh;
+    private Button button_DeleteRes;
+    private Button button_BookFlight;
+    private Button button_CalcPrice;
+    private Button button_payOK;
+    private Label label_currUser;
+    private Label label_Payment;
     
     private Window mainWindow;
     private Window loginWindow;
     private Window registrationWindow;
     private Window userWindow;
     private Window adminWindow;
+    private Window ticketWindow;
+    private Window paymentWindow;
     
     private BeanItemContainer<Felhasznalo> felhasznalok;
     private BeanItemContainer<Nemzet> nemzetek;
@@ -92,6 +109,9 @@ public class RepulojegyfoglalasApplication extends Application {
     private DatabaseService service;
     
     private boolean isNewItem = false;
+    private Felhasznalo currentUser = null;
+    private BeanItem<Felhasznalo> currentUserBean = null;
+    private Jarat selectedJarat = null;
 
     @Override
 	public void init() {
@@ -660,11 +680,20 @@ public class RepulojegyfoglalasApplication extends Application {
         adminWindow.setModal(true);
         adminWindow.setDraggable(false);
         
-        userWindow = new Window(Constants.WINDOW_USER_CAPS);
+        userWindow = new Window(Constants.WINDOW_USER_CAPS, initUserLayout());
         userWindow.setClosable(false);
         userWindow.setResizable(false);
         userWindow.setModal(true);
         userWindow.setDraggable(false);
+        
+        ticketWindow = new Window("JEGY", initTicketCreator());
+        ticketWindow.setResizable(false);
+        ticketWindow.setModal(true);
+        
+        paymentWindow = new Window("FIZETÉS", initPaymentWindow());
+        paymentWindow.setResizable(false);
+        paymentWindow.setModal(true);
+        paymentWindow.setClosable(false);
     }
     
     private AbsoluteLayout initAdminLayout() {
@@ -707,11 +736,30 @@ public class RepulojegyfoglalasApplication extends Application {
             private static final long serialVersionUID = 1L;
 
             public void buttonClick(ClickEvent event) {
+                currentUser = null;
+                currentUserBean = null;
                 mainWindow.removeWindow(adminWindow);
                 mainWindow.addWindow(loginWindow);
             }
         });
         labelLogout.addComponent(button_logoff);
+     
+        // button_stats
+        Button button_stats = new Button();
+        button_stats.setCaption("Statisztikák");
+        button_stats.setImmediate(false);
+        button_stats.setWidth("100.0%");
+        button_stats.setHeight("-1px");
+        button_stats.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                int popJarat = service.callPopularis();
+                Jarat pj = service.getJaratById(popJarat);
+                showNotification("A legpopulárisabb járat: " + pj.getHonnan().getVarosnev() + " - " + pj.getHova().getVarosnev(), "Statisztikák");
+            }
+        });
+        labelLogout.addComponent(button_stats);
         
         topBar.addComponent(labelLogout);
         
@@ -1139,8 +1187,13 @@ public class RepulojegyfoglalasApplication extends Application {
                 boolean isRegOk = service.callRegisztralte((String)textField_1.getValue(), (String)passwordField_1.getValue());
                 
                 if (isRegOk) {
+                    currentUser = service.getFelhasznaloByUsername((String)textField_1.getValue());
+                    currentUserBean = new BeanItem<Felhasznalo>(currentUser);
+                    System.out.println("Current user: " + currentUser.getUsername());
                     mainWindow.removeWindow(loginWindow);
                     mainWindow.addWindow(userWindow);
+                    
+                    onUserLogon();
                 } else {
                     showWarning("Hibás felhasználónév vagy jelszó", "Bejelentkezés");
                 }
@@ -1162,6 +1215,9 @@ public class RepulojegyfoglalasApplication extends Application {
                 boolean isRegOk = service.callRegisztralte((String)textField_1.getValue(), (String)passwordField_1.getValue());
                 
                 if (isRegOk) {
+                    currentUser = service.getFelhasznaloByUsername((String)textField_1.getValue());
+                    currentUserBean = new BeanItem<Felhasznalo>(currentUser);
+                    System.out.println("Current user: " + currentUser.getUsername());
                     mainWindow.removeWindow(loginWindow);
                     mainWindow.addWindow(adminWindow);
                 } else {
@@ -1262,7 +1318,566 @@ public class RepulojegyfoglalasApplication extends Application {
     }
     
     private AbsoluteLayout initUserLayout() {
-        return null;
+        AbsoluteLayout mainLayout = new AbsoluteLayout();
+        mainLayout.setImmediate(false);
+        mainLayout.setWidth("900px");
+        mainLayout.setHeight("600px");
+        mainLayout.setMargin(false);
+        
+        // vl_main
+        VerticalLayout vl_main = new VerticalLayout();
+        vl_main.setImmediate(false);
+        vl_main.setWidth("100.0%");
+        vl_main.setHeight("100.0%");
+        vl_main.setMargin(true);
+        
+        // hl_top
+        HorizontalLayout hl_top = new HorizontalLayout();
+        hl_top.setImmediate(false);
+        hl_top.setWidth("100.0%");
+        hl_top.setHeight("-1px");
+        hl_top.setMargin(true);
+        
+        // label_currUser
+        label_currUser = new Label();
+        label_currUser.setImmediate(false);
+        label_currUser.setWidth("-1px");
+        label_currUser.setHeight("-1px");
+        hl_top.addComponent(label_currUser);
+        
+        // button_logout
+        Button button_logout = new Button();
+        button_logout.setCaption("Kijelentkezés");
+        button_logout.setImmediate(true);
+        button_logout.setWidth("-1px");
+        button_logout.setHeight("-1px");
+        button_logout.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                currentUser = null;
+                currentUserBean = null;
+                mainWindow.removeWindow(userWindow);
+                mainWindow.addWindow(loginWindow);
+            }
+        });
+        hl_top.addComponent(button_logout);
+        hl_top.setComponentAlignment(button_logout, new Alignment(6));
+        vl_main.addComponent(hl_top);
+        
+        // accordion_1
+        Accordion accordion_1 = new Accordion();
+        accordion_1.setImmediate(true);
+        accordion_1.setWidth("100.0%");
+        accordion_1.setHeight("100.0%");
+        
+        // vl_SearchAndList
+        VerticalLayout vl_SearchAndList = new VerticalLayout();
+        vl_SearchAndList.setImmediate(false);
+        vl_SearchAndList.setWidth("100.0%");
+        vl_SearchAndList.setHeight("100.0%");
+        vl_SearchAndList.setMargin(true);
+        
+        // hl_SearchControls
+        HorizontalLayout hl_SearchControls = new HorizontalLayout();
+        hl_SearchControls.setImmediate(false);
+        hl_SearchControls.setWidth("100.0%");
+        hl_SearchControls.setHeight("-1px");
+        hl_SearchControls.setMargin(false);
+        hl_SearchControls.setSpacing(true);
+        
+        // txtSearch
+        final TextField txtSearch = new TextField();
+        txtSearch.setImmediate(false);
+        txtSearch.setWidth("100.0%");
+        txtSearch.setHeight("-1px");
+        hl_SearchControls.addComponent(txtSearch);
+        hl_SearchControls.setExpandRatio(txtSearch, 1.0f);
+        
+        // button_SearchFlights
+        Button button_SearchFlights = new Button();
+        button_SearchFlights.setCaption("Járatok keresése");
+        button_SearchFlights.setImmediate(true);
+        button_SearchFlights.setWidth("-1px");
+        button_SearchFlights.setHeight("-1px");
+        button_SearchFlights.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                Varos v = service.getVarosByName(txtSearch.getValue().toString());
+                if (v != null) {
+                    //final BeanItemContainer<Szalloda> hotels = new BeanItemContainer<Szalloda>(Szalloda.class, service.getSzallodaByVaros(v));
+                    final BeanItemContainer<Jarat> flights = new BeanItemContainer<Jarat>(Jarat.class, service.getJaratByVaros(v));
+                    
+                    table_Results.setContainerDataSource(flights);
+                    table_Results.setVisibleColumns(new String[] {Constants.HONNAN, Constants.HOVA});
+                    table_Results.setSelectable(true);
+                    table_Results.setImmediate(true);
+                    table_Results.setSortAscending(true);
+                    table_Results.addListener(new Property.ValueChangeListener() {
+                        private static final long serialVersionUID = 1L;
+
+                        public void valueChange(ValueChangeEvent event) {
+                            Object id = table_Results.getValue();
+                            vl_ResultDetails.setVisible(id != null);
+                            
+                            Jarat j = flights.getItem(id).getBean();
+                            selectedJarat = j;
+                            Menetrend m = service.getMenetrendByJarat(j.getJaratId());
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            String datumI = "";
+                            String datumE = "";
+                            if (m != null) {
+                                datumI = " (" + dateFormat.format(m.getIndul()) + ")";
+                                datumE = " (" + dateFormat.format(m.getErkezik()) + ")";
+                            }
+                            
+                            String toDisplay = j.getHonnan().getVarosnev() + datumI + " - " + j.getHova().getVarosnev() + datumE;
+                            resultLabel.setValue(toDisplay);     
+                            button_BookFlight.setVisible(true);
+                        }
+                    });
+                }
+            }
+        });
+        hl_SearchControls.addComponent(button_SearchFlights);
+        
+        // button_SearchHotels
+        Button button_SearchHotels = new Button();
+        button_SearchHotels.setCaption("Szállodák keresése");
+        button_SearchHotels.setImmediate(true);
+        button_SearchHotels.setWidth("-1px");
+        button_SearchHotels.setHeight("-1px");
+        button_SearchHotels.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                Varos v = service.getVarosByName(txtSearch.getValue().toString());
+                if (v != null) {
+                    final BeanItemContainer<Szalloda> hotels = new BeanItemContainer<Szalloda>(Szalloda.class, service.getSzallodaByVaros(v));
+                    
+                    table_Results.setContainerDataSource(hotels);
+                    table_Results.setVisibleColumns(new String[] {Constants.NEVE_POJO});
+                    table_Results.setSelectable(true);
+                    table_Results.setImmediate(true);
+                    table_Results.setSortAscending(true);
+                    table_Results.addListener(new Property.ValueChangeListener() {
+                        private static final long serialVersionUID = 1L;
+
+                        public void valueChange(ValueChangeEvent event) {
+                            Object id = table_Results.getValue();
+                            vl_ResultDetails.setVisible(id != null);
+                            
+                            String toDisplay = "" + hotels.getItem(id).getBean().getLeiras();
+                            resultLabel.setValue(toDisplay);     
+                            button_BookFlight.setVisible(false);
+                        }
+                    });
+                }
+                
+            }
+        });
+        hl_SearchControls.addComponent(button_SearchHotels);
+        vl_SearchAndList.addComponent(hl_SearchControls);
+        
+        // hsp_Results
+        HorizontalSplitPanel hsp_Results = new HorizontalSplitPanel();
+        hsp_Results.setImmediate(false);
+        hsp_Results.setWidth("100.0%");
+        hsp_Results.setHeight("100.0%");
+        hsp_Results.setMargin(false);
+        
+        // table_Results
+        table_Results = new Table();
+        table_Results.setImmediate(false);
+        table_Results.setWidth("100.0%");
+        table_Results.setHeight("100.0%");
+        hsp_Results.addComponent(table_Results);
+        
+        // vl_ResultDetails
+        vl_ResultDetails = new VerticalLayout();
+        vl_ResultDetails.setImmediate(false);
+        vl_ResultDetails.setWidth("100.0%");
+        vl_ResultDetails.setHeight("100.0%");
+        vl_ResultDetails.setMargin(true);
+        vl_ResultDetails.setVisible(false);
+        
+        // loginForm_1
+        resultLabel = new Label();
+        resultLabel.setStyleName("v-loginform");
+        resultLabel.setImmediate(false);
+        resultLabel.setWidth("100.0%");
+        resultLabel.setHeight("100.0%");
+        vl_ResultDetails.addComponent(resultLabel);
+        vl_ResultDetails.setExpandRatio(resultLabel, 1.0f);
+        vl_ResultDetails.setComponentAlignment(resultLabel, new Alignment(48));
+        
+        // button_BookFlight
+        button_BookFlight = new Button();
+        button_BookFlight.setVisible(false);
+        button_BookFlight.setCaption("Book Flight");
+        button_BookFlight.setImmediate(true);
+        button_BookFlight.setWidth("-1px");
+        button_BookFlight.setHeight("-1px");
+        button_BookFlight.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                //open new window with createJegy form
+                openNewTicketWindow(selectedJarat);
+                //create a new ticket
+                //calculate the price
+                //ask the user to pay
+                    //new window - yes or no
+                //if yes, create new booking, close windows
+                //if no, close windows
+            }
+        });
+        vl_ResultDetails.addComponent(button_BookFlight);
+        vl_ResultDetails.setComponentAlignment(button_BookFlight, new Alignment(48));
+        
+        hsp_Results.addComponent(vl_ResultDetails);
+        
+        vl_SearchAndList.addComponent(hsp_Results);
+        vl_SearchAndList.setExpandRatio(hsp_Results, 1.0f);
+        
+        accordion_1.addTab(vl_SearchAndList, "Search & List", null);
+        
+        // vl_Reservations
+        VerticalLayout vl_Reservations = new VerticalLayout();
+        vl_Reservations.setImmediate(false);
+        vl_Reservations.setWidth("100.0%");
+        vl_Reservations.setHeight("100.0%");
+        vl_Reservations.setMargin(true);
+        
+        // table_myRes
+        table_myRes = new Table();
+        table_myRes.setImmediate(false);
+        table_myRes.setWidth("100.0%");
+        table_myRes.setHeight("100.0%");
+        vl_Reservations.addComponent(table_myRes);
+        vl_Reservations.setExpandRatio(table_myRes, 1.0f);
+        
+        // hl_myResDetails
+        hl_myResDetails = new HorizontalLayout();
+        hl_myResDetails.setImmediate(false);
+        hl_myResDetails.setWidth("100.0%");
+        hl_myResDetails.setHeight("100.0%");
+        hl_myResDetails.setMargin(true);
+        hl_myResDetails.setVisible(false);
+        
+        // loginForm_2
+        formBookings = new Label();
+        formBookings.setImmediate(false);
+        formBookings.setWidth("100.0%");
+        formBookings.setHeight("100.0%");
+        hl_myResDetails.addComponent(formBookings);
+        hl_myResDetails.setExpandRatio(formBookings, 1.0f);
+        
+        // vl_myResButtons
+        VerticalLayout vl_myResButtons = new VerticalLayout();
+        vl_myResButtons.setImmediate(false);
+        vl_myResButtons.setWidth("-1px");
+        vl_myResButtons.setHeight("100.0%");
+        vl_myResButtons.setMargin(true);
+        vl_myResButtons.setSpacing(true);
+        
+        // button_DeleteRes
+        button_DeleteRes = new Button();
+        button_DeleteRes.setCaption("Delete");
+        button_DeleteRes.setImmediate(true);
+        button_DeleteRes.setWidth("-1px");
+        button_DeleteRes.setHeight("-1px");
+        vl_myResButtons.addComponent(button_DeleteRes);
+        vl_myResButtons.setComponentAlignment(button_DeleteRes, new Alignment(24));
+        
+        // button_ExchangeRes
+        Button button_ExchangeRes = new Button();
+        button_ExchangeRes.setCaption("Change");
+        button_ExchangeRes.setImmediate(true);
+        button_ExchangeRes.setWidth("-1px");
+        button_ExchangeRes.setHeight("-1px");
+        vl_myResButtons.addComponent(button_ExchangeRes);
+        vl_myResButtons.setComponentAlignment(button_ExchangeRes, new Alignment(20));
+        hl_myResDetails.addComponent(vl_myResButtons);
+        vl_Reservations.addComponent(hl_myResDetails);
+        vl_Reservations.setExpandRatio(hl_myResDetails, 1.0f);
+        accordion_1.addTab(vl_Reservations, "Reservations", null);
+        
+        // vl_ModifyUser
+        VerticalLayout vl_ModifyUser = new VerticalLayout();
+        vl_ModifyUser.setImmediate(false);
+        vl_ModifyUser.setWidth("100.0%");
+        vl_ModifyUser.setHeight("100.0%");
+        vl_ModifyUser.setMargin(true);
+        
+        // loginForm_3
+        formUserEdit = new Form();
+        formUserEdit.setStyleName("v-loginform");
+        formUserEdit.setImmediate(false);
+        formUserEdit.setWidth("100.0%");
+        formUserEdit.setHeight("100.0%");
+        formUserEdit.setFormFieldFactory(new FelhasznaloFieldFactory());
+        
+        vl_ModifyUser.addComponent(formUserEdit);
+        vl_ModifyUser.setExpandRatio(formUserEdit, 1.0f);
+        
+        // hl_ModifyControls
+        HorizontalLayout hl_ModifyControls = new HorizontalLayout();
+        hl_ModifyControls.setImmediate(false);
+        hl_ModifyControls.setWidth("-1px");
+        hl_ModifyControls.setHeight("-1px");
+        hl_ModifyControls.setMargin(false);
+        
+        // button_UserSave
+        Button button_UserSave = new Button();
+        button_UserSave.setCaption("Save");
+        button_UserSave.setImmediate(true);
+        button_UserSave.setWidth("-1px");
+        button_UserSave.setHeight("-1px");
+        button_UserSave.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                formUserEdit.commit();
+                System.out.println(currentUserBean.getBean().toString());
+                service.updateFelhasznalo(currentUserBean.getBean());
+            }
+        });
+        hl_ModifyControls.addComponent(button_UserSave);
+        
+        // button_UserCancel
+        Button button_UserCancel = new Button();
+        button_UserCancel.setCaption("Cancel");
+        button_UserCancel.setImmediate(true);
+        button_UserCancel.setWidth("-1px");
+        button_UserCancel.setHeight("-1px");
+        button_UserCancel.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                currentUserBean = new BeanItem<Felhasznalo>(currentUser);
+                formUserEdit.discard();
+            }
+        });
+        hl_ModifyControls.addComponent(button_UserCancel);
+        
+        vl_ModifyUser.addComponent(hl_ModifyControls);
+        
+        accordion_1.addTab(vl_ModifyUser, "Modify User", null);
+        
+        vl_main.addComponent(accordion_1);
+        vl_main.setExpandRatio(accordion_1, 1.0f);
+        
+        mainLayout.addComponent(vl_main, "top:0.0px;left:0.0px;");
+        
+        return mainLayout;
+    }
+    
+    private AbsoluteLayout initTicketCreator() {
+        AbsoluteLayout mainLayout = new AbsoluteLayout();
+        mainLayout.setImmediate(false);
+        mainLayout.setWidth("400px");
+        mainLayout.setHeight("450px");
+        mainLayout.setMargin(false);
+        
+        // verticalLayout_1
+        VerticalLayout verticalLayout_1 = new VerticalLayout();
+        verticalLayout_1.setImmediate(false);
+        verticalLayout_1.setWidth("100.0%");
+        verticalLayout_1.setHeight("100.0%");
+        verticalLayout_1.setMargin(true);
+        
+        // loginForm_1
+        formTicket = new Form();
+        formTicket.setStyleName("v-loginform");
+        formTicket.setImmediate(false);
+        formTicket.setWidth("100.0%");
+        formTicket.setHeight("100.0%");
+        verticalLayout_1.addComponent(formTicket);
+        verticalLayout_1.setExpandRatio(formTicket, 1.0f);
+        
+        formTicket.setFormFieldFactory(new JegyFieldFactory());
+        
+        
+        // button_CalcPrice
+        button_CalcPrice = new Button();
+        button_CalcPrice.setCaption("OK");
+        button_CalcPrice.setImmediate(false);
+        button_CalcPrice.setWidth("-1px");
+        button_CalcPrice.setHeight("-1px");
+        verticalLayout_1.addComponent(button_CalcPrice);
+        verticalLayout_1.setComponentAlignment(button_CalcPrice, new Alignment(48));
+        mainLayout.addComponent(verticalLayout_1, "left:0.0px;");
+        
+        return mainLayout;
+    }
+    
+    private AbsoluteLayout initPaymentWindow() {
+        AbsoluteLayout mainLayout = new AbsoluteLayout();
+        mainLayout.setImmediate(false);
+        mainLayout.setWidth("400px");
+        mainLayout.setHeight("150px");
+        mainLayout.setMargin(false);
+        
+        // verticalLayout_1
+        VerticalLayout verticalLayout_1 = new VerticalLayout();
+        verticalLayout_1.setImmediate(false);
+        verticalLayout_1.setWidth("100.0%");
+        verticalLayout_1.setHeight("100.0%");
+        verticalLayout_1.setMargin(true);
+        
+        // label_Payment
+        label_Payment = new Label();
+        label_Payment.setImmediate(false);
+        label_Payment.setWidth("100.0%");
+        label_Payment.setHeight("100.0%");
+        verticalLayout_1.addComponent(label_Payment);
+        verticalLayout_1.setExpandRatio(label_Payment, 1.0f);
+        
+        // horizontalLayout_1
+        HorizontalLayout horizontalLayout_1 = new HorizontalLayout();
+        horizontalLayout_1.setImmediate(false);
+        horizontalLayout_1.setWidth("100.0%");
+        horizontalLayout_1.setHeight("100.0%");
+        horizontalLayout_1.setMargin(false);
+        horizontalLayout_1.setSpacing(true);
+        
+        // button_payOK
+        button_payOK = new Button();
+        button_payOK.setCaption("Igen");
+        button_payOK.setImmediate(false);
+        button_payOK.setWidth("-1px");
+        button_payOK.setHeight("-1px");
+        horizontalLayout_1.addComponent(button_payOK);
+        horizontalLayout_1.setComponentAlignment(button_payOK, new Alignment(34));
+        
+        // button_payCancel
+        Button button_payCancel = new Button();
+        button_payCancel.setCaption("Nem");
+        button_payCancel.setImmediate(false);
+        button_payCancel.setWidth("-1px");
+        button_payCancel.setHeight("-1px");
+        button_payCancel.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                mainWindow.removeWindow(paymentWindow);
+            }
+        });
+        horizontalLayout_1.addComponent(button_payCancel);
+        horizontalLayout_1.setComponentAlignment(button_payCancel, new Alignment(33));
+        
+        verticalLayout_1.addComponent(horizontalLayout_1);
+        verticalLayout_1.setExpandRatio(horizontalLayout_1, 1.0f);
+        
+        mainLayout.addComponent(verticalLayout_1, "left:0.0px;");
+        
+        return mainLayout;
+    }
+    
+    private void onUserLogon() {
+        label_currUser.setValue(Constants.LABEL_GREETING + currentUser.getUsername());
+        
+        final BeanItemContainer<Foglalas> myBookings = new BeanItemContainer<Foglalas>(Foglalas.class, service.getAllFoglalasByUser(currentUser.getUsername()));
+        table_myRes.setContainerDataSource(myBookings);
+        table_myRes.setVisibleColumns(new String[] {Constants.JEGY_POJO});
+        table_myRes.setSelectable(true);
+        table_myRes.setImmediate(true);
+        table_myRes.setSortAscending(true);
+        table_myRes.addListener(new Property.ValueChangeListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void valueChange(ValueChangeEvent event) {
+                Object id = table_myRes.getValue();
+                hl_myResDetails.setVisible(id != null);
+                
+                Jegy j = myBookings.getItem(id).getBean().getJegy();
+                Menetrend m = service.getMenetrendByJarat(j.getJarat().getJaratId());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
+                String datum = "";
+                if (m != null) {
+                    datum = dateFormat.format(m.getIndul())  + " - ";
+                }
+                String toDisplay = datum + j.getJarat().getHonnan().getVarosnev() + " - " + j.getJarat().getHova().getVarosnev() + " járat (" + j.getJarat().getRepulo().getTarsasag().getTarsasagNev() + "), " + j.getOsztaly().getSzama() + ". osztály";
+
+                formBookings.setValue(toDisplay);
+            }
+        });
+        button_DeleteRes.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                Foglalas f = myBookings.getItem(table_myRes.getValue()).getBean();
+                service.deleteFoglalas(f);
+                myBookings.removeAllItems();
+                myBookings.addAll(service.getAllFoglalasByUser(currentUser.getUsername()));
+                table_myRes.setContainerDataSource(myBookings);
+                hl_myResDetails.setVisible(false);
+            }
+        });
+        
+        formUserEdit.setItemDataSource(currentUserBean);
+        Vector<Object> regFormOrder = new Vector<Object>();
+        regFormOrder.add(Constants.USERNAME);
+        regFormOrder.add(Constants.PASS);
+        regFormOrder.add(Constants.OKMANYSZAM);
+        regFormOrder.add(Constants.NEVE);
+        regFormOrder.add(Constants.SZULETETT);
+        regFormOrder.add(Constants.BANKKARTYASZAM);
+        regFormOrder.add(Constants.LAKCIM);
+        regFormOrder.add(Constants.TELEFONSZAM);
+        formUserEdit.setVisibleItemProperties(regFormOrder);
+        formUserEdit.getField(Constants.USERNAME).setReadOnly(true);
+               
+    }
+    
+    private void openNewTicketWindow(Jarat j) {
+        mainWindow.addWindow(ticketWindow);
+        
+        final BeanItem<Jegy> newTicket = new BeanItem<Jegy>(new Jegy(0, j, null, null));
+        formTicket.setItemDataSource(newTicket);
+        Vector<Object> tickFormOrder = new Vector<Object>();
+        tickFormOrder.add(Constants.JEGY_ID_POJO);
+        tickFormOrder.add(Constants.JARAT_POJO);
+        tickFormOrder.add(Constants.OSZTALY_POJO);
+        tickFormOrder.add(Constants.BIZTOSITAS_POJO);
+        formTicket.setVisibleItemProperties(tickFormOrder);
+        formTicket.getField(Constants.JEGY_ID_POJO).setReadOnly(true);
+        button_CalcPrice.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                Jegy j = newTicket.getBean();
+                openNewPaymentWindow(j);
+            }
+        });
+    }
+    
+    private void openNewPaymentWindow(final Jegy j) {
+        mainWindow.removeWindow(ticketWindow);
+        mainWindow.addWindow(paymentWindow);
+        
+        int price = service.callJegyAr(j.getJarat(), j.getOsztaly(), j.getBiztositas());
+        label_Payment.setValue("A fizetendő összeg " + price + " Ft. Elfogadja?");
+        button_payOK.addListener(new ClickListener() {
+            private static final long serialVersionUID = 1L;
+
+            public void buttonClick(ClickEvent event) {
+                mainWindow.removeWindow(paymentWindow);
+                                
+                service.insertJegy(j);
+                int max = 0;
+                for (Jegy uj : service.getAllJegy()) {
+                    if (uj.getJegyId() > max) {
+                        max = uj.getJegyId();
+                    }
+                }
+                service.insertFoglalas(new Foglalas(currentUser, service.getJegyById(max)));
+                onUserLogon();
+            }
+        });
+        
     }
     
     @Override

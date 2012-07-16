@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Repulo {
-    private long repuloId;
+    private int repuloId;
     private String tipus;
     private String ulohely;
     private Tarsasag tarsasag;
@@ -10,7 +10,7 @@ public class Repulo {
         super();
     }
 
-    public Repulo(long repuloId, String tipus, String ulohely, Tarsasag tarsasag) {
+    public Repulo(int repuloId, String tipus, String ulohely, Tarsasag tarsasag) {
         super();
         this.repuloId = repuloId;
         this.tipus = tipus;
@@ -18,11 +18,11 @@ public class Repulo {
         this.tarsasag = tarsasag;
     }
 
-    public long getRepuloId() {
+    public int getRepuloId() {
         return repuloId;
     }
 
-    public void setRepuloId(long repuloId) {
+    public void setRepuloId(int repuloId) {
         this.repuloId = repuloId;
     }
 

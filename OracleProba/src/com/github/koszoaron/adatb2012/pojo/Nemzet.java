@@ -1,24 +1,24 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Nemzet {
-    private long nemzetId;
+    private int nemzetId;
     private String orszagnev;
     
     public Nemzet() {
         super();
     }
 
-    public Nemzet(long nemzetId, String orszagnev) {
+    public Nemzet(int nemzetId, String orszagnev) {
         super();
         this.nemzetId = nemzetId;
         this.orszagnev = orszagnev;
     }
 
-    public long getNemzetId() {
+    public int getNemzetId() {
         return nemzetId;
     }
 
-    public void setNemzetId(long nemzetId) {
+    public void setNemzetId(int nemzetId) {
         this.nemzetId = nemzetId;
     }
 

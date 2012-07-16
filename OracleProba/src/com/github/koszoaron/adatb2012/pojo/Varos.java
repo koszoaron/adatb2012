@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Varos {
-    private long varosId;
+    private int varosId;
     private String varosnev;
     private Nemzet nemzet;
     
@@ -9,18 +9,18 @@ public class Varos {
         super();
     }
 
-    public Varos(long varosId, String varosnev, Nemzet nemzet) {
+    public Varos(int varosId, String varosnev, Nemzet nemzet) {
         super();
         this.varosId = varosId;
         this.varosnev = varosnev;
         this.nemzet = nemzet;
     }
 
-    public long getVarosId() {
+    public int getVarosId() {
         return varosId;
     }
 
-    public void setVarosId(long varosId) {
+    public void setVarosId(int varosId) {
         this.varosId = varosId;
     }
 

@@ -1,7 +1,7 @@
 package com.github.koszoaron.adatb2012.pojo;
 
 public class Osztaly {
-    private long szama;
+    private int szama;
     private int etkezes;
     private int relax;
     private int extraBorond;
@@ -11,7 +11,7 @@ public class Osztaly {
         super();
     }
 
-    public Osztaly(long szama, int etkezes, int relax, int extraBorond,
+    public Osztaly(int szama, int etkezes, int relax, int extraBorond,
             int internet) {
         super();
         this.szama = szama;
@@ -21,11 +21,11 @@ public class Osztaly {
         this.internet = internet;
     }
 
-    public long getSzama() {
+    public int getSzama() {
         return szama;
     }
 
-    public void setSzama(long szama) {
+    public void setSzama(int szama) {
         this.szama = szama;
     }
 

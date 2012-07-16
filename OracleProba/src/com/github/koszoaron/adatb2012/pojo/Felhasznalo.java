@@ -1,29 +1,32 @@
 package com.github.koszoaron.adatb2012.pojo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Felhasznalo {
+public class Felhasznalo implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private String username;
     private String pass;
     private String okmanyszam;
-    private String nev;
+    private String neve;
     private Date szuletett;
-    private String bankkartyaszam;
+    private int bankkartyaszam;
     private String lakcim;
-    private String telefonszam;
+    private int telefonszam;
     
     public Felhasznalo() {
         super();
     }
 
     public Felhasznalo(String username, String pass, String okmanyszam,
-            String nev, Date szuletett, String bankkartyaszam, String lakcim,
-            String telefonszam) {
+            String neve, Date szuletett, int bankkartyaszam, String lakcim,
+            int telefonszam) {
         super();
         this.username = username;
         this.pass = pass;
         this.okmanyszam = okmanyszam;
-        this.nev = nev;
+        this.neve = neve;
         this.szuletett = szuletett;
         this.bankkartyaszam = bankkartyaszam;
         this.lakcim = lakcim;
@@ -54,12 +57,12 @@ public class Felhasznalo {
         this.okmanyszam = okmanyszam;
     }
 
-    public String getNev() {
-        return nev;
+    public String getNeve() {
+        return neve;
     }
 
-    public void setNev(String nev) {
-        this.nev = nev;
+    public void setNeve(String neve) {
+        this.neve = neve;
     }
 
     public Date getSzuletett() {
@@ -70,11 +73,11 @@ public class Felhasznalo {
         this.szuletett = szuletett;
     }
 
-    public String getBankkartyaszam() {
+    public int getBankkartyaszam() {
         return bankkartyaszam;
     }
 
-    public void setBankkartyaszam(String bankkartyaszam) {
+    public void setBankkartyaszam(int bankkartyaszam) {
         this.bankkartyaszam = bankkartyaszam;
     }
 
@@ -86,18 +89,18 @@ public class Felhasznalo {
         this.lakcim = lakcim;
     }
 
-    public String getTelefonszam() {
+    public int getTelefonszam() {
         return telefonszam;
     }
 
-    public void setTelefonszam(String telefonszam) {
+    public void setTelefonszam(int telefonszam) {
         this.telefonszam = telefonszam;
     }
     
     @Override
     public String toString() {
         return "Felhasznalo [username=" + username + ", pass=" + pass
-                + ", okmanyszam=" + okmanyszam + ", nev=" + nev
+                + ", okmanyszam=" + okmanyszam + ", neve=" + neve
                 + ", szuletett=" + szuletett + ", bankkartyaszam="
                 + bankkartyaszam + ", lakcim=" + lakcim + ", telefonszam="
                 + telefonszam + "]";
